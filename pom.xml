@@ -116,7 +116,8 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- H2 embedded database -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -128,7 +129,19 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.187</version>
 		</dependency>
+		
+		<!-- Apache tiles templating -->
 
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>3.0.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -24,7 +24,6 @@ public class MovieController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model model) {
-		System.out.println("Kontroler list() ...");
 		model.addAttribute("message","Lista filmova (" + movieDao.findAll().size() + ")");
 		model.addAttribute("movies", movieDao.findAllWithCast());
 		return "movies/list";
@@ -33,7 +32,6 @@ public class MovieController {
 	@RequestMapping(value="/photo/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadImage(@PathVariable("id") int id) {
-		System.out.println("Kontroler downloadPhoto() ...");
 		Movie movie = movieDao.findById(id);
 		return movie.getImage();
 	}
