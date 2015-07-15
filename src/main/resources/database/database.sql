@@ -23,6 +23,15 @@ create table movie_actor(
 	constraint fk_movie_actor_2 foreign key (actor_id) references actor(id) on delete cascade
 );
 
+CREATE TABLE users
+(
+  username character varying(20) NOT NULL primary key,
+  password character varying(20) NOT NULL,
+  role character varying(20) NOT NULL
+);
+
+insert into users(username,password,role) values ('user','user','ROLE_USER');
+
 insert into movie(name,release_date,description,image,trailer_url) values ('Jurassic World','2015-07-10','A new theme park is built on the original site of Jurassic Park. Everything is going well until the park''s newest attraction--a genetically modified giant stealth killing machine--escapes containment and goes on a killing spree.',file_read('src/main/resources/database/images/jurassic.jpg'),'https://www.youtube.com/watch?v=RFinNxS5KN4');
 insert into movie(name,release_date,description,image,trailer_url) values ('Fight Club','2015-07-10',' An insomniac office worker, looking for a way to change his life, crosses paths with a devil-may-care soap maker, forming an underground fight club that evolves into something much, much more...',file_read('src/main/resources/database/images/fight.jpeg'),'https://www.youtube.com/watch?v=SUXWAEX2jlg');
 insert into movie(name,release_date,description,image,trailer_url) values ('Minions','2015-07-02','Minions Stuart, Kevin and Bob are recruited by Scarlet Overkill, a super-villain who, alongside her inventor husband Herb, hatches a plot to take over the world.',file_read('src/main/resources/database/images/minions.jpeg'),'https://www.youtube.com/watch?v=eisKxhjBnZ0');
