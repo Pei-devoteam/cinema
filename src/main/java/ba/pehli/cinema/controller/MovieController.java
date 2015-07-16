@@ -24,7 +24,6 @@ public class MovieController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model model) {
-		model.addAttribute("message","Lista filmova (" + movieDao.findAll().size() + ")");
 		model.addAttribute("movies", movieDao.findAllWithCast());
 		return "movies/list";
 	}

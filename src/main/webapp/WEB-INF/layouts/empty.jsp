@@ -26,11 +26,7 @@
 </head>
 <body>
 	<div id="pageWrapper">
-		<div id="headerWrapper">
-			<tiles:insertAttribute name="header" ignore="true" />
-		</div>
 		<div id="contentWrapper">
-			<tiles:insertAttribute name="menu" ignore="true" />
 			<div id="main">
 				<tiles:insertAttribute name="body" />
 				<tiles:insertAttribute name="footer" ignore="true" />

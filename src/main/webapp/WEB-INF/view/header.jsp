@@ -3,6 +3,7 @@
 <div id="header">
 	<spring:url value="/j_spring_security_check" var="loginUrl" />
 	<spring:url value="/j_spring_security_logout" var="logoutUrl" />
+	<spring:url value="/users/register" var="urlRegister" />
 	<spring:message var="labelUsername" code="user.username" />
 	<spring:message var="labelPassword" code="user.password" />
 	<spring:message var="labelLogin" code="user.login" />
@@ -20,7 +21,7 @@
 							<td>${labelPassword}</td>
 							<td><input type="password" name="j_password" /></td>
 							<td><input name="submit" type="submit" value="${labelLogin}" /></td>
-							<td>${labelRegister}</td>
+							<td><a href="${urlRegister}">${labelRegister}</a></td>
 						</tr>
 					</table>
 			</form>

@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven validator="validator"/>
     
     <mvc:resources location="/styles,/scripts" mapping="/resources/**" />
 
@@ -35,5 +35,7 @@
 		<property name="cookieName" value="language" />
 	</bean>
 	
-
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
 </beans>

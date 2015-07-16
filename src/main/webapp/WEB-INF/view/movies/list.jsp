@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
 <spring:url value="movies/photo" var="urlPhoto" />
 <spring:message code="movies.title" var="messageTitle" />
@@ -13,9 +14,14 @@
 	<c:forEach var="movie" items="${movies}">
 		<table>
 			<tr>
-				<td rowspan="3"><a class="popup-trailer"
-					href="${movie.trailerUrl}"><img src="${urlPhoto}/${movie.id}"
-						height="150" width="100" /></a></td>
+				<td rowspan="3">
+				<a class="popup-trailer" 
+					<security:authorize access="isAuthenticated()">
+						href="${movie.trailerUrl}"
+					</security:authorize>
+					>
+					<img src="${urlPhoto}/${movie.id}"	height="150" width="100" />
+				</a></td>
 				<td class="title">${movie.name}</td>
 			</tr>
 			<tr>

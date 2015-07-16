@@ -2,7 +2,16 @@ package ba.pehli.cinema.domain;
 
 import java.util.Date;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class User {
 	private String username;
@@ -13,6 +22,8 @@ public class User {
 	private CreditCard creditCard;
 	private Resource image;
 	
+	@NotEmpty(message="{validation.field.notempty}")
+	@Email(message="{validation.field.email}")
 	public String getUsername() {
 		return username;
 	}
@@ -21,6 +32,7 @@ public class User {
 		this.username = username;
 	}
 	
+	@NotEmpty(message="{validation.field.notempty}")
 	public String getPassword() {
 		return password;
 	}
@@ -37,6 +49,9 @@ public class User {
 		this.role = role;
 	}
 	
+	//@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@Past(message="{validation.field.past}")
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -60,7 +75,9 @@ public class User {
 	public void setImage(Resource image) {
 		this.image = image;
 	}
-
+	
+	@NotNull
+	@Valid
 	public CreditCard getCreditCard() {
 		return creditCard;
 	}
