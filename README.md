@@ -22,5 +22,7 @@ Finally, to run the example, right click on the project and choose Run as - Mave
 * JavaServer Pages
 * JQuery scripts
 * CSS
+* JavaMail
+* Velocity
 
 
