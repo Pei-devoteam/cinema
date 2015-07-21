@@ -2,12 +2,15 @@ package ba.pehli.cinema.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,6 +27,10 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name="users")
+@NamedQueries({
+	@NamedQuery(name="User.findByVerificationCode",query="select u from User u where u.verificationCode = :verificationCode"),
+	@NamedQuery(name="User.findAllNonVerified", query="select u from User u where u.enabled=false")
+})
 public class User {
 	private int id;
 	private String username;
@@ -31,7 +38,10 @@ public class User {
 	private String role;
 	private Date birthDate;
 	private String country;
+	private boolean enabled;
+	private String verificationCode;
 	private CreditCard creditCard;
+	private Date createdDate = new Date();
 	
 	
 	@Id
@@ -96,9 +106,37 @@ public class User {
 		this.country = country;
 	}
 	
+	@Column(name="verification_code")
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+	
+	@Column(name="enabled")
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+	
+	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@Column(name="created_date")
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
 	@NotNull
 	@Valid
-	@OneToOne(optional=false)
+	@OneToOne(optional=false,cascade= {CascadeType.ALL})
 	@JoinColumn(name="credit_card_id",unique=true,nullable=false)
 	public CreditCard getCreditCard() {
 		return creditCard;
@@ -109,6 +147,7 @@ public class User {
 	}
 	
 	public String toString(){
-		return "[" + username + "]";
+		return "[id:" + id + ",username:" + username + ",password:" + password +
+				",enabled:" + enabled + ",verificationCode=" + verificationCode + ",creditCard:" + creditCard + "]";
 	}
 }

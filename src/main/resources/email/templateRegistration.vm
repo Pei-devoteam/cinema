@@ -1,5 +1,7 @@
 <html>
 <body>
-<h4>${username}, dobrodošli na naš web site. Da bi nastavili raditi potrebno je da verifikujete Vašu email adresu.</h4>
+<h4>${username}, welcome. Please verify your address by clicking 
+<a href="http://localhost:8080/cinema/users/verification/${verificationCode}">here</a>
+</h4>
 </body>
 </html>

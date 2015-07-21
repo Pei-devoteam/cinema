@@ -10,6 +10,7 @@
 <spring:message code="movies.available" var="messageAvailable" />
 
 <div id="moviesList">
+	<p>${message}</p>
 	<h2>${messageAvailable}</h2>
 	<c:forEach var="movie" items="${movies}">
 		<table>

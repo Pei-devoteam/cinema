@@ -31,6 +31,9 @@ CREATE TABLE users
   role character varying(20) NOT NULL,
   birth_date date,
   country character varying(60),
+  enabled boolean NOT NULL,
+  verification_code character varying(200),
+  created_date date,
   credit_card_id int
 );
 
@@ -41,7 +44,7 @@ CREATE TABLE credit_cards (
 );
 
 insert into credit_cards(issuer,card_number) values ('VISA','xxxxxxxx');
-insert into users(username,password,role,credit_card_id) values ('user','user','ROLE_USER',1);
+insert into users(username,password,role,credit_card_id,enabled) values ('user','user','ROLE_USER',1,true);
 
 insert into movie(name,release_date,description,image,trailer_url) values ('Jurassic World','2015-07-10','A new theme park is built on the original site of Jurassic Park. Everything is going well until the park''s newest attraction--a genetically modified giant stealth killing machine--escapes containment and goes on a killing spree.',file_read('src/main/resources/database/images/jurassic.jpg'),'https://www.youtube.com/watch?v=RFinNxS5KN4');
 insert into movie(name,release_date,description,image,trailer_url) values ('Fight Club','2015-07-10',' An insomniac office worker, looking for a way to change his life, crosses paths with a devil-may-care soap maker, forming an underground fight club that evolves into something much, much more...',file_read('src/main/resources/database/images/fight.jpeg'),'https://www.youtube.com/watch?v=SUXWAEX2jlg');

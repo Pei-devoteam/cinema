@@ -11,7 +11,7 @@ This project is using various Java anntotations that are not compatible with old
 
 Finally, to run the example, right click on the project and choose Run as - Maven build. As a goal type tomcat7:run. First time Spring STS will download tomcat7 web server and at the end run the app. To try application, in favorite web browser type http://localhost:8080/cinema/movies and that's it. 
 
-## List of used technologies and features
+## List of used technologies
 
 * Internal (in-memory) H2 database
 * Hibernate mapping to domain objects
@@ -24,5 +24,13 @@ Finally, to run the example, right click on the project and choose Run as - Mave
 * CSS
 * JavaMail
 * Velocity
+* Task schehuling
+
+## List of implemented features
+
+* Listing movies from database
+* Displaying movie trailers
+* User registration and e-mail verification
+* Periodic deleting of non-verified users
 
 
