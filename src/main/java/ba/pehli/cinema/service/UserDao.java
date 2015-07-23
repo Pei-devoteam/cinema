@@ -5,6 +5,7 @@ import java.util.List;
 import ba.pehli.cinema.domain.User;
 
 public interface UserDao {
+	User findByUsername(String username);
 	List<User> findAllNonVerifiedUsers();
 	User findUserByVerificationCode(String verificationCode);
 	User save(User user);

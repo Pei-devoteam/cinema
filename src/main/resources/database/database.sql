@@ -33,7 +33,7 @@ CREATE TABLE users
   country character varying(60),
   enabled boolean NOT NULL,
   verification_code character varying(200),
-  created_date date,
+  created_date timestamp,
   credit_card_id int
 );
 
@@ -41,6 +41,13 @@ CREATE TABLE credit_cards (
    id int NOT NULL auto_increment,
    issuer character varying(20) NOT NULL,
    card_number character varying(20) NOT NULL
+);
+
+CREATE TABLE ratings (
+	id int NOT NULL auto_increment,
+	rating int NOT NULL,
+	movie_id int NOT NULL,
+	user_id int NOT NULL
 );
 
 insert into credit_cards(issuer,card_number) values ('VISA','xxxxxxxx');
@@ -67,3 +74,5 @@ insert into movie_actor(movie_id,actor_id) values (3,5);
 insert into movie_actor(movie_id,actor_id) values (3,1);
 insert into movie_actor(movie_id,actor_id) values (4,6);
 insert into movie_actor(movie_id,actor_id) values (4,7);
+
+insert into ratings(rating,movie_id,user_id) values(2,1,1);

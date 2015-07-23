@@ -1,10 +1,15 @@
 package ba.pehli.cinema.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,10 +19,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,6 +37,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @Entity
 @Table(name="users")
 @NamedQueries({
+	@NamedQuery(name="User.findByUsername",query="select u from User u where u.username=:username"),
 	@NamedQuery(name="User.findByVerificationCode",query="select u from User u where u.verificationCode = :verificationCode"),
 	@NamedQuery(name="User.findAllNonVerified", query="select u from User u where u.enabled=false")
 })
@@ -43,6 +53,7 @@ public class User {
 	private CreditCard creditCard;
 	private Date createdDate = new Date();
 	
+	private Set<Rating> ratings = new HashSet<Rating>();
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -124,7 +135,7 @@ public class User {
 		this.verificationCode = verificationCode;
 	}
 	
-	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_date")
 	public Date getCreatedDate() {
 		return createdDate;
@@ -144,6 +155,14 @@ public class User {
 	
 	public void setCreditCard(CreditCard creditCard) {
 		this.creditCard = creditCard;
+	}
+	
+	@OneToMany(mappedBy="user")
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
 	}
 	
 	public String toString(){

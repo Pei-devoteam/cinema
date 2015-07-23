@@ -1,10 +1,13 @@
 package ba.pehli.cinema.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +22,7 @@ public class Actor {
 	private int id;
 	private String name;
 	
-	private List<Movie> filmography = new ArrayList<Movie>();
+	private Set<Movie> filmography = new HashSet<Movie>();
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -41,10 +44,10 @@ public class Actor {
 	
 	@ManyToMany
 	@JoinTable(name="movie_actor", joinColumns=@JoinColumn(name="actor_id"), inverseJoinColumns=@JoinColumn(name="movie_id"))
-	public List<Movie> getFilmography() {
+	public Set<Movie> getFilmography() {
 		return filmography;
 	}
-	public void setFilmography(List<Movie> filmography) {
+	public void setFilmography(Set<Movie> filmography) {
 		this.filmography = filmography;
 	}
 	

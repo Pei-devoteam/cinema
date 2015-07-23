@@ -24,6 +24,12 @@ public class UserDaoImpl implements UserDao{
 	
 	@Override
 	@Transactional(readOnly=true)
+	public User findByUsername(String username) {
+		return (User)sessionFactory.getCurrentSession().getNamedQuery("User.findByUsername").setParameter("username",username).uniqueResult();
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
 	public User findUserByVerificationCode(String verificationCode) {
 		return (User)sessionFactory.getCurrentSession().getNamedQuery("User.findByVerificationCode").setParameter("verificationCode", verificationCode).uniqueResult();
 	}
@@ -42,13 +48,12 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public void deleteNonVerifiedUsers() {
-		System.out.println(" *** BATCH");
 		Calendar cal = Calendar.getInstance();
 		Date now = new Date();
 		for (User user : findAllNonVerifiedUsers()) {
 			long difference = now.getTime() - user.getCreatedDate().getTime();
 			long days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
-			if (days > 5) {
+			if (days >= 3) {
 				delete(user);
 			}
 		}

@@ -2,7 +2,9 @@ package ba.pehli.cinema.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,18 +19,22 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.core.io.Resource;
 
 @Entity
 @Table(name="movie")
 @NamedQueries({
 	@NamedQuery(name="Movie.findById", query="select m from Movie m where m.id = :id"),
-	@NamedQuery(name="Movie.findAllWithCast",query="select distinct m from Movie m left join fetch m.cast c")
+	@NamedQuery(name="Movie.findAllWithCast",query="select distinct m from Movie m left join fetch m.cast c order by m.id"),
+	@NamedQuery(name="Movie.findAllWithCastAndRating",query="select distinct m from Movie m left join fetch m.cast c left join fetch m.ratings r")
 })
 public class Movie {
 	private int id;
@@ -39,7 +45,8 @@ public class Movie {
 	private String trailerUrl;
 	private int version;
 	
-	private List<Actor> cast = new ArrayList<Actor>();
+	private Set<Actor> cast = new HashSet<Actor>();
+	private Set<Rating> ratings = new HashSet<Rating>();
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -86,6 +93,14 @@ public class Movie {
 		this.image = image;
 	}
 	
+	@Column(name="trailer_url")
+	public String getTrailerUrl() {
+		return trailerUrl;
+	}
+	public void setTrailerUrl(String trailerUrl) {
+		this.trailerUrl = trailerUrl;
+	}
+	
 	@Version
 	@Column(name="version")
 	public int getVersion() {
@@ -97,19 +112,19 @@ public class Movie {
 	
 	@ManyToMany
 	@JoinTable(name="movie_actor", joinColumns=@JoinColumn(name="movie_id"), inverseJoinColumns=@JoinColumn(name="actor_id"))
-	public List<Actor> getCast() {
+	public Set<Actor> getCast() {
 		return cast;
 	}
-	public void setCast(List<Actor> cast) {
+	public void setCast(Set<Actor> cast) {
 		this.cast = cast;
 	}
 	
-	@Column(name="trailer_url")
-	public String getTrailerUrl() {
-		return trailerUrl;
+	@OneToMany(mappedBy="movie")
+	public Set<Rating> getRatings() {
+		return ratings;
 	}
-	public void setTrailerUrl(String trailerUrl) {
-		this.trailerUrl = trailerUrl;
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
 	}
 	public String toString() {
 		return "[" + id + " " + name + "]"; 

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ba.pehli.cinema.domain.Movie;
+import ba.pehli.cinema.domain.Rating;
+import ba.pehli.cinema.domain.User;
 
 
 @Service("movieDao")
@@ -34,6 +36,12 @@ public class MovieDaoImpl implements MovieDao{
 	public List<Movie> findAllWithCast() {
 		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCast").list();
 	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Movie> findAllWithCastAndRating() {
+		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCastAndRatingForUser").list();
+	}
 
 	@Override
 	@Transactional(readOnly=true)
@@ -52,6 +60,9 @@ public class MovieDaoImpl implements MovieDao{
 		sessionFactory.getCurrentSession().delete(movie);
 	}
 
-	
+	@Override
+	public Rating findRating(Movie movie, User user) {
+		return (Rating) sessionFactory.getCurrentSession().getNamedQuery("Rating.findForUserAndMovie").setParameter("userId", user.getId()).setParameter("movieId", movie.getId()).uniqueResult();
+	}
 	
 }

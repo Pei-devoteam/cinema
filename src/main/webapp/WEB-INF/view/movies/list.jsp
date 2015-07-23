@@ -15,7 +15,7 @@
 	<c:forEach var="movie" items="${movies}">
 		<table>
 			<tr>
-				<td rowspan="3">
+				<td rowspan="4">
 				<a class="popup-trailer" 
 					<security:authorize access="isAuthenticated()">
 						href="${movie.trailerUrl}"
@@ -24,14 +24,22 @@
 					<img src="${urlPhoto}/${movie.id}"	height="150" width="100" />
 				</a></td>
 				<td class="title">${movie.name}</td>
+				<td align="right">
+					<security:authorize access="isAuthenticated()">
+						<input type="hidden" class="rating" data-size="xs" data-step="1"
+							data-glyphicon="false" data-show-caption="false" value="${ratings[movie.id]}"/>
+					</security:authorize>
+				</td>
 			</tr>
 			<tr>
-				<td>${movie.description}</td>
+				<td colspan="2">${movie.description}</td>
 			</tr>
 			<tr>
-				<td class="cast"><c:forEach var="actor" items="${movie.cast}">
+				<td class="cast" colspan="2">
+					<c:forEach var="actor" items="${movie.cast}">
 							${actor.name}&nbsp;|&nbsp;
-						</c:forEach></td>
+					</c:forEach>
+				</td>
 			</tr>
 		</table>
 		<br />
