@@ -59,10 +59,5 @@ public class MovieDaoImpl implements MovieDao{
 	public void delete(Movie movie) {
 		sessionFactory.getCurrentSession().delete(movie);
 	}
-
-	@Override
-	public Rating findRating(Movie movie, User user) {
-		return (Rating) sessionFactory.getCurrentSession().getNamedQuery("Rating.findForUserAndMovie").setParameter("userId", user.getId()).setParameter("movieId", movie.getId()).uniqueResult();
-	}
 	
 }

@@ -14,7 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ratings")
 @NamedQueries({
-	@NamedQuery(name="Rating.findForUserAndMovie",query="select r from Rating r left join fetch r.user u left join fetch r.movie m where r.user.id=:userId and r.movie.id=:movieId")
+	@NamedQuery(name="Rating.findById",query="select r from Rating r left join fetch r.user u left join fetch r.movie m where r.id=:id"),
+	@NamedQuery(name="Rating.findByUserAndMovie",query="select r from Rating r left join fetch r.user u left join fetch r.movie m where r.user.id=:userId and r.movie.id=:movieId")
 })
 public class Rating {
 	private int id;

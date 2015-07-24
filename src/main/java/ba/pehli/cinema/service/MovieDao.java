@@ -12,6 +12,5 @@ public interface MovieDao {
 	List<Movie> findAllWithCastAndRating();
 	Movie findById(int id);
 	Movie save(Movie movie);
-	Rating findRating(Movie movie, User user);
 	void delete(Movie movie);
 }

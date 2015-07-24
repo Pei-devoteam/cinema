@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,18 @@ public class UserDaoImpl implements UserDao{
 	public void delete(User user) {
 		sessionFactory.getCurrentSession().delete(user);
 		
+	}
+
+	@Override
+	public User getAuthenticatedUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		// i anonymous je autentikovan pa moramo raditi dodatnu kontrolu 
+		if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+			org.springframework.security.core.userdetails.User authUser = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+			User user = findByUsername(authUser.getUsername());
+			return user;
+		}
+		return null;
 	}
 	
 	

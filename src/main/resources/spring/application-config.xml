@@ -79,6 +79,6 @@
 	
 	<task:scheduler id="scheduler" pool-size="10"/>
 	<task:scheduled-tasks scheduler="scheduler">
-		<task:scheduled ref="userDao" method="deleteNonVerifiedUsers" initial-delay="60000" fixed-delay="30000"/>
+		<task:scheduled ref="userDao" method="deleteNonVerifiedUsers" initial-delay="3600000" fixed-delay="3600000"/>
 	</task:scheduled-tasks>
 </beans>

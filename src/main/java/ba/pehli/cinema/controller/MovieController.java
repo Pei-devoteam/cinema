@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import ba.pehli.cinema.domain.Movie;
 import ba.pehli.cinema.domain.Rating;
 import ba.pehli.cinema.domain.User;
 import ba.pehli.cinema.service.MovieDao;
+import ba.pehli.cinema.service.RatingDao;
 import ba.pehli.cinema.service.UserDao;
 
 @Controller
@@ -24,21 +27,26 @@ public class MovieController {
 	
 	private MovieDao movieDao;
 	private UserDao userDao;
+	private RatingDao ratingDao;
 	
 	@Autowired
-	public MovieController(MovieDao movieDao,UserDao userDao) {
+	public MovieController(MovieDao movieDao,UserDao userDao,RatingDao ratingDao) {
 		this.movieDao = movieDao;
 		this.userDao = userDao;
+		this.ratingDao = ratingDao;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model model) {
-		User user = userDao.findByUsername("user");
+		User user = userDao.getAuthenticatedUser();
 		List<Movie> movies = movieDao.findAllWithCast();
 		Map<Integer, Integer> ratings = new HashMap<Integer, Integer>();
-		for (Movie m : movies) {
-			Rating rating = movieDao.findRating(m, user); 
-			ratings.put(m.getId(), rating != null ? rating.getRating() : 0);
+		
+		if (user != null) {
+			for (Movie movie : movies) {
+				Rating rating = ratingDao.findByMovieAndUser(movie, user); 
+				ratings.put(movie.getId(), rating != null ? rating.getRating() : 0);
+			}
 		}
 		model.addAttribute("movies", movies);
 		model.addAttribute("ratings", ratings);
@@ -51,5 +59,23 @@ public class MovieController {
 	public byte[] downloadImage(@PathVariable("id") int id) {
 		Movie movie = movieDao.findById(id);
 		return movie.getImage();
+	}
+	
+	@RequestMapping(value="/rating", method=RequestMethod.GET)
+	@ResponseBody 
+	public int rateMovie(int movieId, int rating) {
+		User user = userDao.getAuthenticatedUser();
+		Movie movie = movieDao.findById(movieId);
+		Rating rt = ratingDao.findByMovieAndUser(movie, user);
+		if (rt != null) {
+			rt.setRating(rating);
+		} else {
+			rt = new Rating();
+			rt.setMovie(movie);
+			rt.setUser(user);
+			rt.setRating(rating);
+		}
+		ratingDao.save(rt);
+		return rt.getId(); 
 	}
 }

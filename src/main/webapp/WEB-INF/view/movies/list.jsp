@@ -9,6 +9,19 @@
 <spring:message code="movies.title" var="messageTitle" />
 <spring:message code="movies.available" var="messageAvailable" />
 
+<script type="text/javascript">
+	function rateMovie(movieId,userId,rating){
+		var params = 'movieId='+movieId+'&userId='+userId+'&rating='+rating;
+		$.ajax({
+			url: 'movies/rating',
+			data:params,
+			success: function(data){
+				
+			}
+		});
+	}
+</script>
+
 <div id="moviesList">
 	<p>${message}</p>
 	<h2>${messageAvailable}</h2>
@@ -27,7 +40,8 @@
 				<td align="right">
 					<security:authorize access="isAuthenticated()">
 						<input type="hidden" class="rating" data-size="xs" data-step="1"
-							data-glyphicon="false" data-show-caption="false" value="${ratings[movie.id]}"/>
+							data-glyphicon="false" data-show-caption="false" value="${ratings[movie.id]}"
+							onchange="rateMovie(${movie.id},'${username}',this.value)"/>
 					</security:authorize>
 				</td>
 			</tr>
