@@ -54,13 +54,12 @@
 	<bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="propertyEditorRegistrars">
 			<list>
-				<bean class="ba.pehli.cinema.utils.CustomPropertyEditorRegistrar">
-					<property name="datePattern" value="dd.MM.yyyy" />
-				</bean>	
+				<bean class="ba.pehli.cinema.utils.CustomPropertyEditorRegistrar" />
 			</list>
 		</property>
 	</bean>
 	
+	<security:global-method-security pre-post-annotations="enabled"/>
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/*" access="permitAll"/>
 		<security:form-login login-page="/movies" authentication-failure-url="/users/loginfail"

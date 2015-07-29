@@ -5,9 +5,14 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
-<spring:url value="movies/photo" var="urlPhoto" />
+<spring:url value="/movies/photo" var="urlPhoto" />
 <spring:message code="movies.title" var="messageTitle" />
 <spring:message code="movies.available" var="messageAvailable" />
+
+<spring:url value="/movies/edit" var="urlEdit" />
+<spring:message code="movies.edit" var="labelEdit" />
+<spring:url value="/movies/new" var="urlNew" />
+<spring:message code="movies.new" var="labelNew" />
 
 <script type="text/javascript">
 	function rateMovie(movieId,userId,rating){
@@ -25,6 +30,7 @@
 <div id="moviesList">
 	<p>${message}</p>
 	<h2>${messageAvailable}</h2>
+	<a href="${urlNew}">${labelNew}</a>
 	<c:forEach var="movie" items="${movies}">
 		<table>
 			<tr>
@@ -39,9 +45,14 @@
 				<td class="title">${movie.name}</td>
 				<td align="right">
 					<security:authorize access="isAuthenticated()">
-						<input type="hidden" class="rating" data-size="xs" data-step="1"
-							data-glyphicon="false" data-show-caption="false" value="${ratings[movie.id]}"
-							onchange="rateMovie(${movie.id},'${username}',this.value)"/>
+						<security:authorize access="hasRole('ROLE_USER')">
+							<input type="hidden" class="rating" data-size="xs" data-step="1"
+								data-glyphicon="false" data-show-caption="false" value="${ratings[movie.id]}"
+								onchange="rateMovie(${movie.id},'${username}',this.value)"/>
+						</security:authorize>
+						<security:authorize access="hasRole('ROLE_ADMIN')">
+							<a href="${urlEdit}/${movie.id}">${labelEdit}</a>
+						</security:authorize>
 					</security:authorize>
 				</td>
 			</tr>

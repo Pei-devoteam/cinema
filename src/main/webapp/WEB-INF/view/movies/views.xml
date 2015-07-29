@@ -6,4 +6,7 @@
 	<definition extends="default" name="movies/list">
 		<put-attribute name="body" value="/WEB-INF/view/movies/list.jsp" />
 	</definition>
+	<definition extends="default" name="movies/edit">
+		<put-attribute name="body" value="/WEB-INF/view/movies/edit.jsp" />
+	</definition>
 </tiles-definitions>

@@ -24,10 +24,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="movie")
@@ -59,6 +62,7 @@ public class Movie {
 	}
 	
 	@Column(name="name")
+	@NotEmpty(message="{validation.field.notempty}")
 	public String getName() {
 		return name;
 	}
@@ -66,7 +70,8 @@ public class Movie {
 		this.name = name;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@NotNull(message="{validation.field.notempty}")
+	@DateTimeFormat(pattern="dd.MM.yyyy")
 	@Column(name="release_date")
 	public Date getReleaseDate() {
 		return releaseDate;
@@ -76,6 +81,7 @@ public class Movie {
 	}
 	
 	@Column(name="description")
+	@NotEmpty(message="{validation.field.notempty}")
 	public String getDescription() {
 		return description;
 	}
@@ -94,6 +100,7 @@ public class Movie {
 	}
 	
 	@Column(name="trailer_url")
+	@NotEmpty(message="{validation.field.notempty}")
 	public String getTrailerUrl() {
 		return trailerUrl;
 	}

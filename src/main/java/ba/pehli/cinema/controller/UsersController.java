@@ -62,7 +62,6 @@ public class UsersController {
 			user.setVerificationCode(getMD5(user.getUsername()+user.getPassword()));
 			user = userDao.save(user);
 			sendEmail(user);
-			System.out.println("*** spašen user: " + user);
 		} catch(Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 			return "redirect:/users/register";
