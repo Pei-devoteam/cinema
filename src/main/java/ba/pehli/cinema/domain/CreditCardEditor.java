@@ -2,9 +2,14 @@ package ba.pehli.cinema.domain;
 
 import java.beans.PropertyEditorSupport;
 
-/*
- * Kreditne kartice možemo unositi na slijedeći način: VISA,87368746494
+/**
+ * Uility class that enables entering whole credit card object as a simple string.
+ * For example VISA,1111111
+ * 
+ * @author almir
+ *
  */
+
 public class CreditCardEditor extends PropertyEditorSupport{
 
 	@Override

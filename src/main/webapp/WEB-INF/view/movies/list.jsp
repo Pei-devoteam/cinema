@@ -28,9 +28,14 @@
 </script>
 
 <div id="moviesList">
+	
 	<p>${message}</p>
 	<h2>${messageAvailable}</h2>
-	<a href="${urlNew}">${labelNew}</a>
+	
+	<security:authorize access="hasRole('ROLE_ADMIN')">
+		<a href="${urlNew}">${labelNew}</a>	
+	</security:authorize>
+	
 	<c:forEach var="movie" items="${movies}">
 		<table>
 			<tr>

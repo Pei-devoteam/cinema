@@ -58,7 +58,7 @@
 			 
 			<tr>
 				<td><form:label path="image" />${labelImage}</td>
-				<td><input name="image" type="file"/></td>
+				<td><input name="file" type="file"/></td>
 				<td><form:errors path="image" cssClass="error" /></td>
 			</tr>
 			

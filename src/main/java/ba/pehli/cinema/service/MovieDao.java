@@ -6,6 +6,12 @@ import ba.pehli.cinema.domain.Movie;
 import ba.pehli.cinema.domain.Rating;
 import ba.pehli.cinema.domain.User;
 
+/**
+ * Service for movies.
+ * 
+ * @author almir
+ *
+ */
 public interface MovieDao {
 	List<Movie> findAll();
 	List<Movie> findAllWithCast();

@@ -32,6 +32,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * Movie domain object.
+ * 
+ * @author almir
+ */
+
 @Entity
 @Table(name="movie")
 @NamedQueries({

@@ -1,5 +1,11 @@
 package ba.pehli.cinema.domain;
 
+/**
+ * Utility class that contains informations about user environment.
+ * 
+ * @author almir
+ *
+ */
 public class UserSystemInfo {
 	private String osName;
 	private String region;

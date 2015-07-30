@@ -1,23 +1,18 @@
 package ba.pehli.cinema.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,10 +33,19 @@ import ba.pehli.cinema.domain.User;
 import ba.pehli.cinema.service.MovieDao;
 import ba.pehli.cinema.service.RatingDao;
 import ba.pehli.cinema.service.UserDao;
+import ba.pehli.cinema.utils.EmailUtils;
+
+/**
+ * Controller class responsible for showing, inserting and updating of movies.
+ * @author almir
+ *
+ */
 
 @Controller
 @RequestMapping(value="/movies")
 public class MovieController{
+	
+	private EmailUtils emailUtils;
 	
 	private MovieDao movieDao;
 	private UserDao userDao;
@@ -54,6 +59,11 @@ public class MovieController{
 		this.ratingDao = ratingDao;
 	}
 	
+	/**
+	 * Default handler, just show movies list
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model model) {
 		User user = userDao.getAuthenticatedUser();
@@ -71,6 +81,11 @@ public class MovieController{
 		return "movies/list";
 	}
 	
+	/**
+	 * Generating image that is available for <img> html tag in jsp pages
+	 * @param id Id of picture
+	 * @return image as byte array
+	 */
 	@RequestMapping(value="/photo/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadImage(@PathVariable("id") int id) {
@@ -80,6 +95,13 @@ public class MovieController{
 		return null;
 	}
 	
+	/**
+	 * Shows edit page for selected movie.
+	 * 
+	 * @param id Identification of selected movie
+	 * @param model
+	 * @return edit page
+	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String showEdit(@PathVariable int id,Model model) {
@@ -88,6 +110,12 @@ public class MovieController{
 		return "movies/edit";
 	}
 	
+	/**
+	 * Shows page for entering new movie.
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String showNew(Model model) {
@@ -96,26 +124,39 @@ public class MovieController{
 		return "movies/edit";
 	}
 	
+	/**
+	 * Processing of updated movie. If movie has no image attempt is made to recover image from database.
+	 * Every movie is validated against errors in input process.
+	 * 
+	 * @param movie
+	 * @param bindingResult
+	 * @param model
+	 * @param request
+	 * @param redirectAttributes
+	 * @param locale
+	 * @param file
+	 * @return
+	 */
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
 	public String edit(@Valid Movie movie,BindingResult bindingResult,Model model,HttpServletRequest request,RedirectAttributes redirectAttributes,
-				Locale locale,@RequestParam(value="image",required=false) Part image) {
+				Locale locale,@RequestParam(value="file",required=false) MultipartFile file) {
+		
 		if (bindingResult.hasErrors()) {
 			String message = messageSource.getMessage("movies.edit.error", null, locale);
 			model.addAttribute("message", message);
 			return "movies/edit"; 
 		}
 		
-		if (image != null) {
-			byte[] imageContent = null;
+		if (!file.isEmpty()) {	
 			try {
-				InputStream is = image.getInputStream();
-				if (is != null) {
-					imageContent = IOUtils.toByteArray(is);
-					movie.setImage(imageContent);
-				}
-			} catch (IOException e) {
+				byte[] imageContent = file.getBytes();
+				movie.setImage(imageContent);
+			} catch (Exception e) {
 				
 			}
+		} else {
+			Movie dbMovie = movieDao.findById(movie.getId());
+			movie.setImage(dbMovie.getImage());
 		}
 		
 		movieDao.save(movie);
@@ -125,35 +166,74 @@ public class MovieController{
 		return "redirect:/movies/edit/"+movie.getId();
 	}
 	
+	/**
+	 * Processing of new movie. After saving the movie, methos sends email message to every
+	 * user belonging to ROLE_USER role.
+	 * 
+	 * @param movie
+	 * @param bindingResult
+	 * @param model
+	 * @param request
+	 * @param redirectAttributes
+	 * @param locale
+	 * @param file
+	 * @return
+	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/new", method=RequestMethod.POST)
-	public String newMovie(@Valid Movie movie,BindingResult bindingResult,Model model,HttpServletRequest request,RedirectAttributes redirectAttributes,
-				Locale locale,@RequestParam(value="image",required=false) Part image) {
+	public String newMovie(final @Valid Movie movie,BindingResult bindingResult,Model model,HttpServletRequest request,RedirectAttributes redirectAttributes,
+				final Locale locale,@RequestParam(value="file",required=false) MultipartFile file) {
 		if (bindingResult.hasErrors()) {
 			String message = messageSource.getMessage("movies.edit.error", null, locale);
 			model.addAttribute("message", message);
 			return "movies/edit"; 
 		}
 		
-		if (image != null) {
-			byte[] imageContent = null;
+		if (!file.isEmpty()) {
 			try {
-				InputStream is = image.getInputStream();
-				if (is != null) {
-					imageContent = IOUtils.toByteArray(is);
-					movie.setImage(imageContent);
-				}
-			} catch (IOException e) {
+				byte[] imageContent = file.getBytes();
+				movie.setImage(imageContent);
+			} catch (Exception e) {
 				
 			}
 		}
 		
 		movieDao.save(movie);
 		
+		// send email to every user in seperate thread
+		Thread thread = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				for (User user : userDao.findByRole("ROLE_USER")) {
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("username", user.getUsername());
+					params.put("movieName", movie.getName());
+					params.put("movieDescription", movie.getDescription());
+					try {
+						String subject = messageSource.getMessage("movies.new", null, locale);
+						emailUtils.sendEmail(user, subject, "email/templateNewMovie.vm", params);
+					} catch (MessagingException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		});
+		thread.start();
+		
 		String message = messageSource.getMessage("form.success", null, locale);
 		redirectAttributes.addFlashAttribute("message", message);
 		return "redirect:/movies/edit/"+movie.getId();
 	}
 	
+	/**
+	 * Saves rating for user and movie. Called from ajax function in jsp file.
+	 * 
+	 * @param movieId Movie that we are rating
+	 * @param rating User who is rating the movie
+	 * @return Identification of rating object
+	 */
 	@RequestMapping(value="/rating", method=RequestMethod.GET)
 	@ResponseBody 
 	public int rateMovie(int movieId, int rating) {
@@ -172,6 +252,8 @@ public class MovieController{
 		return rt.getId(); 
 	}
 	
+	// If we want to insert images we have to register property support editor who is responsible
+	// for converting String into byte array and vice versa
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
@@ -180,6 +262,11 @@ public class MovieController{
 	@Autowired
 	public void setMessageSource(MessageSource messageSource) {
 		this.messageSource = messageSource;
+	}
+	
+	@Autowired
+	public void setEmailUtils(EmailUtils emailUtils) {
+		this.emailUtils = emailUtils;
 	}
 	
 	

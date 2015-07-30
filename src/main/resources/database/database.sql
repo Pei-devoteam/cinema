@@ -51,7 +51,7 @@ CREATE TABLE ratings (
 );
 
 insert into credit_cards(issuer,card_number) values ('VISA','xxxxxxxx');
-insert into users(username,password,role,credit_card_id,enabled) values ('user','user','ROLE_USER',1,true);
+insert into users(username,password,role,credit_card_id,enabled) values ('almir.pehratovic@gmail.com','user','ROLE_USER',1,true);
 insert into users(username,password,role,credit_card_id,enabled) values ('admin','admin','ROLE_ADMIN',null,true);
 
 insert into movie(name,release_date,description,image,trailer_url) values ('Jurassic World','2015-07-10','A new theme park is built on the original site of Jurassic Park. Everything is going well until the park''s newest attraction--a genetically modified giant stealth killing machine--escapes containment and goes on a killing spree.',file_read('src/main/resources/database/images/jurassic.jpg'),'https://www.youtube.com/watch?v=RFinNxS5KN4');

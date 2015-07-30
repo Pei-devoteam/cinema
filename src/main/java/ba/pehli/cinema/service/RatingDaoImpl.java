@@ -9,6 +9,12 @@ import ba.pehli.cinema.domain.Movie;
 import ba.pehli.cinema.domain.Rating;
 import ba.pehli.cinema.domain.User;
 
+/**
+ * Implementation of service for ratings.
+ * 
+ * @author almir
+ *
+ */
 @Service("ratingDao")
 @Transactional
 public class RatingDaoImpl implements RatingDao{

@@ -34,10 +34,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+/**
+ * Application user. Username is email address of user. Every user belongs to one role. 
+ * Default role is ROLE_USER and is populated in UserController class.
+ * 
+ * @author almir
+ *
+ */
 @Entity
 @Table(name="users")
 @NamedQueries({
 	@NamedQuery(name="User.findByUsername",query="select u from User u where u.username=:username"),
+	@NamedQuery(name="User.findByRole",query="select u from User u where u.role=:role"),
 	@NamedQuery(name="User.findByVerificationCode",query="select u from User u where u.verificationCode = :verificationCode"),
 	@NamedQuery(name="User.findAllNonVerified", query="select u from User u where u.enabled=false")
 })

@@ -14,6 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ba.pehli.cinema.domain.User;
 
+/**
+ * Implementation of service for application users.
+ * 
+ * @author almir
+ *
+ */
 @Service("userDao")
 @Transactional
 public class UserDaoImpl implements UserDao{
@@ -28,6 +34,12 @@ public class UserDaoImpl implements UserDao{
 	@Transactional(readOnly=true)
 	public User findByUsername(String username) {
 		return (User)sessionFactory.getCurrentSession().getNamedQuery("User.findByUsername").setParameter("username",username).uniqueResult();
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<User> findByRole(String role) {
+		return sessionFactory.getCurrentSession().getNamedQuery("User.findByRole").setParameter("role",role).list();
 	}
 	
 	@Override

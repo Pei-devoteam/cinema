@@ -12,7 +12,12 @@ import ba.pehli.cinema.domain.Movie;
 import ba.pehli.cinema.domain.Rating;
 import ba.pehli.cinema.domain.User;
 
-
+/**
+ * Implementation of service for movies in database. Using Hibernate.
+ * 
+ * @author almir
+ *
+ */
 @Service("movieDao")
 @Transactional
 public class MovieDaoImpl implements MovieDao{

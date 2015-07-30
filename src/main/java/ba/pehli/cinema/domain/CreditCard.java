@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Credit card of user
+ * 
+ * @author almir
+ *
+ */
 @Entity
 @Table(name="credit_cards")
 public class CreditCard {

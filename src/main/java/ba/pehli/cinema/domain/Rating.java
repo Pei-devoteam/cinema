@@ -11,6 +11,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ * Every user can rate the movies with grades 1 - 5. This is one such rating.
+ * 
+ * @author almir
+ *
+ */
 @Entity
 @Table(name="ratings")
 @NamedQueries({

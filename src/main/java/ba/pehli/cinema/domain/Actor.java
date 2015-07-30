@@ -16,6 +16,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * Movie actor.
+ * 
+ * @author almir
+ *
+ */
+
 @Entity
 @Table(name="actor")
 public class Actor {
