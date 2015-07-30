@@ -9,7 +9,7 @@ If you wish to try this example, please download source code from repository cli
 
 This project is using various Java anntotations that are not compatible with older java versions so we have to change compatibility to Java 1.6. In project properties (right click on project name) in Java Compiler section choose Compiler compliance level as 1.6, and in Java Build Path section on Libraries tab remove JRE 1.5 library and add your installed Java sdk version greater than 1.5. Spring STS will rebuild the project. All that is left is email configuration that should be set in src/main/resources/email/email.properties (username and password).
 
-Finally, to run the example, right click on the project and choose Run as - Maven build. As a goal type tomcat7:run. First time Spring STS will download tomcat7 web server and at the end run the app. To try application, in favorite web browser type http://localhost:8080/cinema/movies and that's it. 
+Finally, to run the example, right click on the project and choose Run as - Maven build. As a goal type tomcat7:run. First time Spring STS will download tomcat7 web server and at the end run the app. To try application, in favorite web browser type http://localhost:8080/cinema/movies and that's it. Admin authentication data are admin/admin.
 
 ## List of used technologies
 
@@ -29,6 +29,7 @@ Finally, to run the example, right click on the project and choose Run as - Mave
 ## List of implemented features
 
 * Listing movies from database
+* Entering and updating movies
 * Displaying movie trailers
 * Internationalization (bosnian + italian)
 * User registration and e-mail verification
