@@ -1,5 +1,6 @@
 package ba.pehli.cinema.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -36,7 +37,7 @@ import ba.pehli.cinema.service.UserDao;
 import ba.pehli.cinema.utils.EmailUtils;
 
 /**
- * Controller class responsible for showing, inserting and updating of movies.
+ * Controller class responsible for showing, inserting and updating of movies. Also, class handles pagination.
  * @author almir
  *
  */
@@ -44,6 +45,8 @@ import ba.pehli.cinema.utils.EmailUtils;
 @Controller
 @RequestMapping(value="/movies")
 public class MovieController{
+	
+	private static final int PAGE_SIZE = 5;
 	
 	private EmailUtils emailUtils;
 	
@@ -66,8 +69,19 @@ public class MovieController{
 	 */
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(Model model) {
+		return showPage(1, model);
+	}
+	
+	/**
+	 * Shows page with PAGE_SIZE movies.
+	 * @param id Start movie.id to show
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/page/{id}", method=RequestMethod.GET)
+	public String showPage(@PathVariable("id") int id, Model model) {
 		User user = userDao.getAuthenticatedUser();
-		List<Movie> movies = movieDao.findAllWithCast();
+		List<Movie> movies = movieDao.findAllWithCast(id,PAGE_SIZE);
 		Map<Integer, Integer> ratings = new HashMap<Integer, Integer>();
 		
 		if (user != null) {
@@ -76,8 +90,20 @@ public class MovieController{
 				ratings.put(movie.getId(), rating != null ? rating.getRating() : 0);
 			}
 		}
+		
 		model.addAttribute("movies", movies);
 		model.addAttribute("ratings", ratings);
+		
+		int moviesCount = movieDao.findCount();
+		int i = 1;
+		List<Integer> pages = new ArrayList<Integer>();
+		while (i <= moviesCount) {
+			pages.add(i);
+			i+= PAGE_SIZE;
+		}
+		model.addAttribute("pages", pages);
+		model.addAttribute("pageSize", PAGE_SIZE);
+		
 		return "movies/list";
 	}
 	

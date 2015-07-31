@@ -43,7 +43,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NamedQueries({
 	@NamedQuery(name="Movie.findById", query="select m from Movie m where m.id = :id"),
 	@NamedQuery(name="Movie.findAllWithCast",query="select distinct m from Movie m left join fetch m.cast c order by m.id"),
-	@NamedQuery(name="Movie.findAllWithCastAndRating",query="select distinct m from Movie m left join fetch m.cast c left join fetch m.ratings r")
+	@NamedQuery(name="Movie.findAllWithCastAndRating",query="select distinct m from Movie m left join fetch m.cast c left join fetch m.ratings r"),
+	@NamedQuery(name="Movie.findCount", query="select count(*) from Movie"),
 })
 public class Movie {
 	private int id;

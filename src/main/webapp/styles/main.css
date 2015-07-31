@@ -47,9 +47,22 @@ a {
 
 #main {
 	margin: 5%;	
+	display: flex;
+	flex-direction: column;
+}
+
+#moviesList {
+	order: 1;
+	margin: auto;
+}
+
+#pagesList {
+	order: 2;
+	margin: auto;
 }
 
 #footer {
+	order: 3;
 	border:none;
     margin-top:15px;
     border-top:1px solid #999999;

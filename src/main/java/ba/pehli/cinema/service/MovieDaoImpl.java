@@ -22,7 +22,6 @@ import ba.pehli.cinema.domain.User;
 @Transactional
 public class MovieDaoImpl implements MovieDao{
 	
-	
 	private SessionFactory sessionFactory;
 	
 	@Autowired
@@ -44,6 +43,12 @@ public class MovieDaoImpl implements MovieDao{
 	
 	@Override
 	@Transactional(readOnly=true)
+	public List<Movie> findAllWithCast(int page,int size) {
+		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCast").setFirstResult(page-1).setMaxResults(size).list();
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
 	public List<Movie> findAllWithCastAndRating() {
 		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCastAndRatingForUser").list();
 	}
@@ -52,6 +57,13 @@ public class MovieDaoImpl implements MovieDao{
 	@Transactional(readOnly=true)
 	public Movie findById(int id) {
 		return (Movie)sessionFactory.getCurrentSession().getNamedQuery("Movie.findById").setParameter("id", id).uniqueResult();
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public int findCount() {
+		Long count = (Long)sessionFactory.getCurrentSession().getNamedQuery("Movie.findCount").uniqueResult(); 
+		return count.intValue();
 	}
 
 	@Override
