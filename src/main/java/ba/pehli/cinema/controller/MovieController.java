@@ -1,5 +1,9 @@
 package ba.pehli.cinema.controller;
 
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +12,20 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.validation.Valid;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +67,7 @@ public class MovieController{
 	private UserDao userDao;
 	private RatingDao ratingDao;
 	private MessageSource messageSource;
+	private DataSource dataSource;
 	
 	@Autowired
 	public MovieController(MovieDao movieDao,UserDao userDao,RatingDao ratingDao) {
@@ -278,6 +292,50 @@ public class MovieController{
 		return rt.getId(); 
 	}
 	
+	/**
+	 * Generates Jasper report in PDF format.
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/catalog", method=RequestMethod.GET)
+	public void generateCatalog(HttpServletRequest request, HttpServletResponse response,Locale locale) {
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("Title", messageSource.getMessage("movies.catalog.title", null, locale));
+		params.put("Subtitle", messageSource.getMessage("movies.catalog.subtitle", null, locale));
+		params.put("Page", messageSource.getMessage("movies.catalog.page", null, locale));
+		params.put("PageOf", messageSource.getMessage("movies.catalog.pageof", null, locale));
+		params.put("MoviesCount", messageSource.getMessage("movies.catalog.moviesCount", null, locale));
+		
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			ClassPathResource reportFile = new ClassPathResource("reports/catalog.jasper");
+			try {
+				JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportFile.getInputStream());
+				byte[] bytes = JasperRunManager.runReportToPdf(jasperReport,params,conn);
+				
+				response.reset();
+				response.resetBuffer();
+				response.setContentType("application/pdf");
+				response.setContentLength(bytes.length);
+				
+				ServletOutputStream stream = response.getOutputStream();
+				stream.write(bytes, 0, bytes.length);
+				stream.flush();
+				stream.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
 	// If we want to insert images we have to register property support editor who is responsible
 	// for converting String into byte array and vice versa
 	@InitBinder
@@ -294,6 +352,13 @@ public class MovieController{
 	public void setEmailUtils(EmailUtils emailUtils) {
 		this.emailUtils = emailUtils;
 	}
+	
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
+	
 	
 	
 }

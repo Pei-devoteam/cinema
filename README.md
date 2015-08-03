@@ -11,6 +11,10 @@ This project is using various Java anntotations that are not compatible with old
 
 Finally, to run the example, right click on the project and choose Run as - Maven build. As a goal type tomcat7:run. First time Spring STS will download tomcat7 web server and at the end run the app. To try application, in favorite web browser type http://localhost:8080/cinema/movies and that's it. Admin authentication data are admin/admin.
 
+To see reports from system, on Linux pc's should be installed mscore fonts, for example:
+
+sudo apt-get install ttf-mscorefonts-installer
+
 ## List of used technologies
 
 * Internal (in-memory) H2 database
@@ -25,6 +29,7 @@ Finally, to run the example, right click on the project and choose Run as - Mave
 * JavaMail
 * Velocity
 * Task schehuling
+* Jasper Reports
 
 ## List of implemented features
 
@@ -35,4 +40,6 @@ Finally, to run the example, right click on the project and choose Run as - Mave
 * User registration and e-mail verification
 * Periodic (scheduled) deleting of non-verified users
 * Rating movies
+* Pagination
+* Catalog of movies as pdf report
 
