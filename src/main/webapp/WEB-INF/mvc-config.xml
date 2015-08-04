@@ -10,10 +10,21 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <mvc:annotation-driven validator="validator"/>
+    <mvc:annotation-driven validator="validator">
+    	<mvc:message-converters>
+    		<!-- object to json -->
+    		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+    		<!-- object to xml -->
+    		<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+    			<property name="marshaller" ref="castorMarshaller"/>
+    			<property name="unmarshaller" ref="castorMarshaller"/>
+    		</bean>
+    	</mvc:message-converters>
+    </mvc:annotation-driven>
+    
     <security:global-method-security pre-post-annotations="enabled"/>
     
-    <mvc:resources location="/styles,/scripts" mapping="/resources/**" />
+    <mvc:resources location="/styles,/scripts,/images" mapping="/resources/**" />
 
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
@@ -74,4 +85,8 @@
 	</bean>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+	
+	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
+		<property name="mappingLocation" value="classpath:ws/oxm-mapping.xml" />
+	</bean>
 </beans>

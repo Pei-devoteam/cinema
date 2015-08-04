@@ -13,7 +13,15 @@ Finally, to run the example, right click on the project and choose Run as - Mave
 
 To see reports from system, on Linux pc's should be installed mscore fonts, for example:
 
+```html
 sudo apt-get install ttf-mscorefonts-installer
+```
+
+To try implemented web service, please use curl:
+
+```html
+curl -v -H "Accept: application/xml" http://localhost:8080/cinema/ws/list
+```
 
 ## List of used technologies
 
@@ -30,6 +38,8 @@ sudo apt-get install ttf-mscorefonts-installer
 * Velocity
 * Task schehuling
 * Jasper Reports
+* Restful-WS
+* Castor
 
 ## List of implemented features
 
@@ -42,4 +52,5 @@ sudo apt-get install ttf-mscorefonts-installer
 * Rating movies
 * Pagination
 * Catalog of movies as pdf report
+* Web service for movie informations
 
