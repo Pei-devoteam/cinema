@@ -13,7 +13,7 @@
     <mvc:annotation-driven validator="validator">
     	<mvc:message-converters>
     		<!-- object to json -->
-    		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+    		<ref bean="jsonMapper"/>
     		<!-- object to xml -->
     		<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
     			<property name="marshaller" ref="castorMarshaller"/>
@@ -89,4 +89,15 @@
 	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
 		<property name="mappingLocation" value="classpath:ws/oxm-mapping.xml" />
 	</bean>
+	
+	<!-- Open Movie Database is Restful-WS which sends data in JSON format -->
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonMapper"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="jsonMapper" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 </beans>

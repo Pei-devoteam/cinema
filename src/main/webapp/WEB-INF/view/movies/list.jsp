@@ -16,12 +16,13 @@
 <spring:message code="movies.new" var="labelNew" />
 
 <spring:url value="/movies/page" var="urlPage" />
+<spring:url value="/movies/rating" var="urlRating" />
 
 <script type="text/javascript">
 	function rateMovie(movieId,userId,rating){
 		var params = 'movieId='+movieId+'&userId='+userId+'&rating='+rating;
 		$.ajax({
-			url: 'movies/rating',
+			url: '${urlRating}',
 			data:params,
 			success: function(data){
 				

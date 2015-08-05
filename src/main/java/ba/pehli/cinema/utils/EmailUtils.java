@@ -61,4 +61,5 @@ public class EmailUtils {
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
 	}
+	
 }

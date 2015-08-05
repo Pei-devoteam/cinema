@@ -1,6 +1,8 @@
 package ba.pehli.cinema.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,6 +25,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
@@ -37,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,6 +48,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ba.pehli.cinema.domain.Movie;
 import ba.pehli.cinema.domain.Rating;
 import ba.pehli.cinema.domain.User;
+import ba.pehli.cinema.domain.WSOmdbMovie;
 import ba.pehli.cinema.service.MovieDao;
 import ba.pehli.cinema.service.RatingDao;
 import ba.pehli.cinema.service.UserDao;
@@ -59,7 +64,9 @@ import ba.pehli.cinema.utils.EmailUtils;
 @RequestMapping(value="/movies")
 public class MovieController{
 	
-	private static final int PAGE_SIZE = 5;
+	private static final int PAGE_SIZE = 5;	// pagination
+	private static final String URL_OMDB = "http://www.omdbapi.com";  // restful-ws
+	private static final String URL_OMDB_GET = URL_OMDB + "?i=";	  // search form imdb id
 	
 	private EmailUtils emailUtils;
 	
@@ -68,6 +75,8 @@ public class MovieController{
 	private RatingDao ratingDao;
 	private MessageSource messageSource;
 	private DataSource dataSource;
+	
+	private RestTemplate restTemplate;
 	
 	@Autowired
 	public MovieController(MovieDao movieDao,UserDao userDao,RatingDao ratingDao) {
@@ -161,6 +170,7 @@ public class MovieController{
 	public String showNew(Model model) {
 		Movie movie = new Movie();
 		model.addAttribute("movie", movie);
+				
 		return "movies/edit";
 	}
 	
@@ -179,7 +189,8 @@ public class MovieController{
 	 */
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
 	public String edit(@Valid Movie movie,BindingResult bindingResult,Model model,HttpServletRequest request,RedirectAttributes redirectAttributes,
-				Locale locale,@RequestParam(value="file",required=false) MultipartFile file) {
+				Locale locale,@RequestParam(value="file",required=false) MultipartFile file,
+				@RequestParam(value="fileUrl",required=false) String fileUrl) {
 		
 		if (bindingResult.hasErrors()) {
 			String message = messageSource.getMessage("movies.edit.error", null, locale);
@@ -194,6 +205,16 @@ public class MovieController{
 			} catch (Exception e) {
 				
 			}
+		} else if (fileUrl != null && fileUrl.length() > 0) {
+			try {
+				System.out.println("fileUrl:" + fileUrl);
+				URL posterUrl = new URL(fileUrl);
+				byte[] imageContent = IOUtils.toByteArray(posterUrl);
+				movie.setImage(imageContent);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			Movie dbMovie = movieDao.findById(movie.getId());
 			movie.setImage(dbMovie.getImage());
@@ -203,6 +224,7 @@ public class MovieController{
 		
 		String message = messageSource.getMessage("form.success", null, locale);
 		redirectAttributes.addFlashAttribute("message", message);
+		
 		return "redirect:/movies/edit/"+movie.getId();
 	}
 	
@@ -216,13 +238,15 @@ public class MovieController{
 	 * @param request
 	 * @param redirectAttributes
 	 * @param locale
-	 * @param file
+	 * @param file User selected image
+	 * @param fileUrl hidden field generated from OMDB for image URL
 	 * @return
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/new", method=RequestMethod.POST)
 	public String newMovie(final @Valid Movie movie,BindingResult bindingResult,Model model,HttpServletRequest request,RedirectAttributes redirectAttributes,
-				final Locale locale,@RequestParam(value="file",required=false) MultipartFile file) {
+				final Locale locale,@RequestParam(value="file",required=false) MultipartFile file,
+				@RequestParam(value="fileUrl",required=false) String fileUrl) {
 		if (bindingResult.hasErrors()) {
 			String message = messageSource.getMessage("movies.edit.error", null, locale);
 			model.addAttribute("message", message);
@@ -235,6 +259,16 @@ public class MovieController{
 				movie.setImage(imageContent);
 			} catch (Exception e) {
 				
+			}
+		} else if (fileUrl != null && fileUrl.length() > 0) {
+			
+			try {
+				URL posterUrl = new URL(fileUrl);
+				byte[] imageContent = IOUtils.toByteArray(posterUrl);
+				movie.setImage(imageContent);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -330,10 +364,21 @@ public class MovieController{
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		
-		
+		}	
+	}
+	
+	/**
+	 * Gets movie information from Open Movie Database Restful-WS. Called via Ajax
+	 * 
+	 * @param movieId Movie that we are rating
+	 * @param rating User who is rating the movie
+	 * @return Identification of rating object
+	 */
+	@RequestMapping(value="/getinfo", method=RequestMethod.GET)
+	@ResponseBody 
+	public WSOmdbMovie getInfo(String imdbId) {
+		WSOmdbMovie result = restTemplate.getForObject(URL_OMDB_GET + imdbId, WSOmdbMovie.class);
+		return result;
 	}
 	
 	// If we want to insert images we have to register property support editor who is responsible
@@ -356,6 +401,11 @@ public class MovieController{
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
+	}
+	
+	@Autowired
+	public void setRestTemplate(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
 	}
 	
 	
