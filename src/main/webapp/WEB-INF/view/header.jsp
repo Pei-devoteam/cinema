@@ -14,8 +14,10 @@
 
 	<spring:url value="/resources/images/bosnia32.png" var="imageBosnia" />
 	<spring:url value="/resources/images/italia32.png" var="imageItalia" />
+	<spring:url value="/resources/images/usa32.png" var="imageEngland" />
 	<spring:url value="?lang=bs" var="urlBos" />
 	<spring:url value="?lang=it" var="urlIta" />
+	<spring:url value="?lang=en" var="urlEng" />
 
 	<security:authorize access="isAnonymous()">
 		<div id="login">
@@ -28,10 +30,11 @@
 						<td><input type="password" name="j_password" /></td>
 						<td><input name="submit" type="submit" value="${labelLogin}" /></td>
 						<td><a href="${urlRegister}">${labelRegister}</a></td>
-						<td class="languages"><a href="${urlBos}"> <img alt="bos"
-								src="${imageBosnia}" />
-						</a> <a href="${urlIta}"> <img alt="bos" src="${imageItalia}" />
-						</a></td>
+						<td class="languages">
+							<a href="${urlBos}"> <img alt="bos" src="${imageBosnia}" /></a> 
+							<a href="${urlIta}"> <img alt="bos" src="${imageItalia}" /></a>
+							<a href="${urlEng}"> <img alt="bos" src="${imageEngland}" /></a>
+						</td>
 					</tr>
 				</table>
 			</form>
@@ -43,10 +46,11 @@
 				<td>${messageWelcome}&nbsp;<security:authentication
 						property="principal.username" /></td>
 				<td><a href="${logoutUrl}">${labelLogout}</a></td>
-				<td class="languages"><a href="${urlBos}"> <img alt="bos"
-						src="${imageBosnia}" />
-				</a> <a href="${urlIta}"> <img alt="bos" src="${imageItalia}" />
-				</a></td>
+				<td class="languages">
+					<a href="${urlBos}"> <img alt="bos" src="${imageBosnia}" /></a> 
+					<a href="${urlIta}"> <img alt="bos" src="${imageItalia}" /></a>
+					<a href="${urlEng}"> <img alt="bos" src="${imageEngland}" /></a>
+				</td>
 			</tr>
 		</table>
 

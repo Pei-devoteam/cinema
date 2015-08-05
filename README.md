@@ -40,17 +40,19 @@ curl -v -H "Accept: application/xml" http://localhost:8080/cinema/ws/list
 * Jasper Reports
 * Restful-WS
 * Castor
+* Jackson
 
 ## List of implemented features
 
 * Listing movies from database
 * Entering and updating movies
 * Displaying movie trailers
-* Internationalization (bosnian + italian)
+* Internationalization (bosnian, italian, english)
 * User registration and e-mail verification
 * Periodic (scheduled) deleting of non-verified users
 * Rating movies
 * Pagination
 * Catalog of movies as pdf report
 * Web service for movie informations
+* Reading movie informations from Open Movie Database Restful--WS
 
