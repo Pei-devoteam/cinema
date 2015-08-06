@@ -14,9 +14,8 @@ import ba.pehli.cinema.domain.User;
  */
 public interface MovieDao {
 	List<Movie> findAll();
-	List<Movie> findAllWithCast();
-	List<Movie> findAllWithCast(int page,int size);
-	List<Movie> findAllWithCastAndRating();
+	List<Movie> findAll(int page,int size);
+	List<Movie> findAllWithRatings();
 	int findCount();
 	Movie findById(int id);
 	Movie save(Movie movie);

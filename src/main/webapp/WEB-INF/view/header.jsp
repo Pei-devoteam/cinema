@@ -25,7 +25,7 @@
 				<table>
 					<tr>
 						<td>${labelUsername}:</td>
-						<td><input type="text" name="j_username" /></td>
+						<td><input type="text" name="j_username" id="username"/></td>
 						<td>${labelPassword}</td>
 						<td><input type="password" name="j_password" /></td>
 						<td><input name="submit" type="submit" value="${labelLogin}" /></td>

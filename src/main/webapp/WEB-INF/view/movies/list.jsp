@@ -67,10 +67,7 @@
 				<td colspan="2">${movie.description}</td>
 			</tr>
 			<tr>
-				<td class="cast" colspan="2"><c:forEach var="actor"
-						items="${movie.cast}">
-							${actor.name}&nbsp;|&nbsp;
-					</c:forEach></td>
+				<td class="cast" colspan="2">${movie.actors}</td>
 			</tr>
 		</table>
 		<br />

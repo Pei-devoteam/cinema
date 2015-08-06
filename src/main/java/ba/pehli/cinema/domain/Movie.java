@@ -42,8 +42,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="movie")
 @NamedQueries({
 	@NamedQuery(name="Movie.findById", query="select m from Movie m where m.id = :id"),
-	@NamedQuery(name="Movie.findAllWithCast",query="select distinct m from Movie m left join fetch m.cast c order by m.id"),
-	@NamedQuery(name="Movie.findAllWithCastAndRating",query="select distinct m from Movie m left join fetch m.cast c left join fetch m.ratings r"),
+	@NamedQuery(name="Movie.findAllWithRatings",query="select distinct m from Movie m  left join fetch m.ratings r"),
 	@NamedQuery(name="Movie.findCount", query="select count(*) from Movie"),
 })
 public class Movie {
@@ -51,11 +50,12 @@ public class Movie {
 	private String name;
 	private Date releaseDate;
 	private String description;
+	private String actors;
+	private String director;
 	private byte[] image;
 	private String trailerUrl;
 	private int version;
 	
-	private Set<Actor> cast = new HashSet<Actor>();
 	private Set<Rating> ratings = new HashSet<Rating>();
 	
 	@Id
@@ -124,18 +124,25 @@ public class Movie {
 		this.version = version;
 	}
 	
-	@ManyToMany
-	@JoinTable(name="movie_actor", joinColumns=@JoinColumn(name="movie_id"), inverseJoinColumns=@JoinColumn(name="actor_id"))
-	public Set<Actor> getCast() {
-		return cast;
-	}
-	public void setCast(Set<Actor> cast) {
-		this.cast = cast;
-	}
-	
 	@OneToMany(mappedBy="movie")
 	public Set<Rating> getRatings() {
 		return ratings;
+	}
+	
+	@Column(name="actors")
+	public String getActors() {
+		return actors;
+	}
+	public void setActors(String actors) {
+		this.actors = actors;
+	}
+	
+	@Column(name="director")
+	public String getDirector() {
+		return director;
+	}
+	public void setDirector(String director) {
+		this.director = director;
 	}
 	public void setRatings(Set<Rating> ratings) {
 		this.ratings = ratings;

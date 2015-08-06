@@ -104,7 +104,7 @@ public class MovieController{
 	@RequestMapping(value="/page/{id}", method=RequestMethod.GET)
 	public String showPage(@PathVariable("id") int id, Model model) {
 		User user = userDao.getAuthenticatedUser();
-		List<Movie> movies = movieDao.findAllWithCast(id,PAGE_SIZE);
+		List<Movie> movies = movieDao.findAll(id,PAGE_SIZE);
 		Map<Integer, Integer> ratings = new HashMap<Integer, Integer>();
 		
 		if (user != null) {

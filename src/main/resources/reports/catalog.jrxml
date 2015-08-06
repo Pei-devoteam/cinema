@@ -9,13 +9,14 @@
 	<parameter name="PageOf" class="java.lang.String"/>
 	<parameter name="MoviesCount" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select id,name,description,trailer_url,image from movie]]>
+		<![CDATA[select id,name,description,trailer_url,image,actors from movie]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="trailer_url" class="java.lang.String"/>
 	<field name="image" class="java.awt.Image"/>
+	<field name="actors" class="java.lang.String"/>
 	<title>
 		<band height="50" splitType="Stretch">
 			<textField isBlankWhenNull="true">
@@ -53,7 +54,7 @@
 			</textField>
 			<textField>
 				<reportElement x="100" y="40" width="390" height="110" uuid="44842d61-9eac-496b-84f9-c7b27c9153fd"/>
-				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{description}+"\n\n\n"+$F{actors}]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="100" height="150" uuid="f2d646dd-78b3-443f-adca-9dbe852f0365">

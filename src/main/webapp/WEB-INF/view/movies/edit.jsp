@@ -14,6 +14,8 @@
 <spring:message code="movies.description" var="labelDescription" />
 <spring:message code="movies.trailer" var="labelTrailer" />
 <spring:message code="movies.image" var="labelImage" />
+<spring:message code="movies.actors" var="labelActors" />
+<spring:message code="movies.director" var="labelDirector" />
 <spring:message code="form.save" var="labelSave" />
 <spring:message code="form.reset" var="labelReset" />
 <spring:message code="form.ws" var="labelWS" />
@@ -31,7 +33,7 @@
 			success: function(data){
 				console.dir(data);
 				if (data.Title != null){
-					//alert(data.Title);
+					//console.dir(data);
 					$('#name').val(data.Title);
 					$('#description').val(data.Plot);
 					$('#poster').attr('src',data.Poster);
@@ -39,6 +41,9 @@
 					
 					$('#trailerUrl').val('http://www.youtube.com');
 					$('#releaseDate').val('01.01.1970');
+					
+					$('#actors').val(data.Actors);
+					$('#director').val(data.Director);
 					
 					var date = new Date(data.Released);
 					$('#releaseDate').val(date.getDate() + "." + date.getMonth() + "." + date.getFullYear());
@@ -79,10 +84,22 @@
 				<td><form:textarea path="description" rows="10" cols="50"/></td>
 				<td><form:errors path="description" cssClass="error" /></td>
 			</tr>
+			
+			<tr>
+				<td><form:label path="actors" >${labelActors}</form:label></td>
+				<td><form:input path="actors"/></td>
+				<td><form:errors path="actors" cssClass="error" /></td>
+			</tr>
+			
+			<tr>
+				<td><form:label path="director">${labelDirector}</form:label></td>
+				<td><form:input path="director"/></td>
+				<td><form:errors path="director" cssClass="error" /></td>
+			</tr>
 
 			<tr>
 				<td><form:label path="trailerUrl">${labelTrailer}</form:label></td>
-				<td><form:input path="trailerUrl" /></td>
+				<td><form:input path="trailerUrl"/></td>
 				<td><form:errors path="trailerUrl" cssClass="error" /></td>
 			</tr>
 			 

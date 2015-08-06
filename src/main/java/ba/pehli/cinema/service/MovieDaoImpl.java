@@ -32,25 +32,19 @@ public class MovieDaoImpl implements MovieDao{
 	@Override
 	@Transactional(readOnly=true)
 	public List<Movie> findAll() {
-		return sessionFactory.getCurrentSession().createQuery("select m from Movie m").list();
+		return sessionFactory.getCurrentSession().createQuery("select m from Movie m order by m.id").list();
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<Movie> findAllWithCast() {
-		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCast").list();
+	public List<Movie> findAll(int page,int size) {
+		return sessionFactory.getCurrentSession().createQuery("select m from Movie m order by m.id").setFirstResult(page-1).setMaxResults(size).list();
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<Movie> findAllWithCast(int page,int size) {
-		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCast").setFirstResult(page-1).setMaxResults(size).list();
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public List<Movie> findAllWithCastAndRating() {
-		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithCastAndRatingForUser").list();
+	public List<Movie> findAllWithRatings() {
+		return sessionFactory.getCurrentSession().getNamedQuery("Movie.findAllWithRatings").list();
 	}
 
 	@Override

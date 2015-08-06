@@ -71,3 +71,11 @@ a {
 .languages > a {
 	text-decoration: none;
 }
+
+input[type="text"] {
+    width: 250px;
+}
+
+#username {
+	width: 180px;
+}
