@@ -18,6 +18,9 @@
 <spring:url value="/movies/page" var="urlPage" />
 <spring:url value="/movies/rating" var="urlRating" />
 
+<spring:url value="/resources/images/like32.png" var="imageLike" />
+<spring:url value="/movies/like" var="urlLike" />
+
 <script type="text/javascript">
 	function rateMovie(movieId,userId,rating){
 		var params = 'movieId='+movieId+'&userId='+userId+'&rating='+rating;
@@ -67,7 +70,12 @@
 				<td colspan="2">${movie.description}</td>
 			</tr>
 			<tr>
-				<td class="cast" colspan="2">${movie.actors}</td>
+				<td class="cast">${movie.actors}</td>
+				<td align="right">
+				    <security:authorize access="isAuthenticated()">
+						<a href="${urlLike}/${movie.id}"> <img alt="Like" src="${imageLike}" /></a>
+					</security:authorize> 
+				</td>
 			</tr>
 		</table>
 		<br />
@@ -78,3 +86,4 @@
 		<a href="${urlPage}/${page}">${page}-${page+pageSize-1}</a>&nbsp;
 		</c:forEach>
 </div>
+

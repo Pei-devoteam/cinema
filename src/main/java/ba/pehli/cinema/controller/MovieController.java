@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -77,6 +78,8 @@ public class MovieController{
 	private DataSource dataSource;
 	
 	private RestTemplate restTemplate;
+	
+	private Facebook facebook;
 	
 	@Autowired
 	public MovieController(MovieDao movieDao,UserDao userDao,RatingDao ratingDao) {
@@ -381,6 +384,22 @@ public class MovieController{
 		return result;
 	}
 	
+	@RequestMapping(value="/like/{id}", method=RequestMethod.GET)
+	public String connectToFacebook(@PathVariable("id") int id,Model model) {
+		System.out.println("facebook: " + (facebook == null ? "null" : "nije null"));
+		try {
+			if (facebook.isAuthorized()) {
+				Movie movie = movieDao.findById(id);
+				facebook.feedOperations().updateStatus("Sviđa mi se film " + movie.getName());
+			} else {
+				return "redirect:/connect/facebook";
+			}
+		} catch (NullPointerException e) {
+			return "redirect:/connect/facebook";
+		}
+		return showPage(1, model);
+	}
+	
 	// If we want to insert images we have to register property support editor who is responsible
 	// for converting String into byte array and vice versa
 	@InitBinder
@@ -406,6 +425,11 @@ public class MovieController{
 	@Autowired
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
+	}
+	
+	@Autowired
+	public void setFacebook(Facebook facebook) {
+		this.facebook = facebook;
 	}
 	
 	

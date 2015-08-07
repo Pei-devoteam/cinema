@@ -39,7 +39,7 @@
 		</property>
 	</bean>
 	
-	<context:component-scan base-package="ba.pehli.cinema.controller"/>
+	<context:component-scan base-package="ba.pehli.cinema.controller ba.pehli.cinema.facebook"/>
 	
 	<mvc:interceptors>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
