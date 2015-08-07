@@ -41,6 +41,7 @@ curl -v -H "Accept: application/xml" http://localhost:8080/cinema/ws/list
 * Restful-WS
 * Castor
 * Jackson
+* Spring Social
 
 ## List of implemented features
 
@@ -55,4 +56,5 @@ curl -v -H "Accept: application/xml" http://localhost:8080/cinema/ws/list
 * Catalog of movies as pdf report
 * Web service for movie informations
 * Reading movie informations from Open Movie Database Restful--WS
+* Facebook integration ('liking' movie)
 
