@@ -6,8 +6,11 @@
 
 <spring:url value="/movies/catalog" var="urlCatalog" />
 <spring:message code="movies.catalog" var="labelCatalog"/>
+<spring:url value="?site_preference=mobile" var="urlMobile" />
+<spring:message code="page.mobile" var="labelPageMobile"/>
 
 <div id="footer">
 	<a href="${urlHome}">${labelHome}</a>&nbsp;
 	<a href="${urlCatalog}">${labelCatalog}</a>&nbsp;
+	<a href="${urlMobile}" data-ajax="false">${labelPageMobile}</a>&nbsp;
 </div>

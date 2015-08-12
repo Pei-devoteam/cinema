@@ -29,6 +29,8 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
@@ -381,16 +383,23 @@ public class MovieController{
 	@ResponseBody 
 	public WSOmdbMovie getInfo(String imdbId) {
 		WSOmdbMovie result = restTemplate.getForObject(URL_OMDB_GET + imdbId, WSOmdbMovie.class);
+		System.out.println(result);
 		return result;
 	}
 	
+	/**
+	 * Facebook like of movie
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/like/{id}", method=RequestMethod.GET)
-	public String connectToFacebook(@PathVariable("id") int id,Model model) {
-		System.out.println("facebook: " + (facebook == null ? "null" : "nije null"));
+	public String connectToFacebook(@PathVariable("id") int id,Model model,Locale locale) {
 		try {
 			if (facebook.isAuthorized()) {
 				Movie movie = movieDao.findById(id);
-				facebook.feedOperations().updateStatus("Sviđa mi se film " + movie.getName());
+				String message = messageSource.getMessage("movies.like.text", new Object[] {movie.getName()}, locale);
+				facebook.feedOperations().updateStatus(message);
 			} else {
 				return "redirect:/connect/facebook";
 			}

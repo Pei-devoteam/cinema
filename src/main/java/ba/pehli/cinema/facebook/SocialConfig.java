@@ -18,14 +18,19 @@ import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 
+/**
+ * Main Facebook configuration.
+ * @author almir
+ *
+ */
 @Configuration
 @EnableSocial
-@PropertySource("classpath:/application.properties")
+@PropertySource("classpath:/facebook/facebook-app.properties")
 public class SocialConfig extends SocialConfigurerAdapter{
 
 	@Override
 	public UserIdSource getUserIdSource() {
-		return new StaticUserIdSource();
+		return new CurrentUserIdSource();
 	}
 	
 	@Configuration

@@ -6,4 +6,7 @@
 	<definition extends="empty" name="users/register">
 		<put-attribute name="body" value="/WEB-INF/view/users/register.jsp" />
 	</definition>
+	<definition extends="mobile" name="users/register_mobile">
+		<put-attribute name="body" value="/WEB-INF/view/users/mobile/register.jsp" />
+	</definition>
 </tiles-definitions>

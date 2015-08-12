@@ -5,15 +5,14 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-
-<spring url value="/connect/facebook" var="urlConnect" />
+<spring:message code="facebook.connect" var="messageConnect"/>
+<spring:url value="/connect/facebook" var="urlConnect" />
 <div id="facebookConnect">
-	<h3>Connect to Facebook</h3>
 
 	<form action="${urlConnect}" method="POST">
 	   <input type="hidden" name="scope" value="publish_actions" />
 		<div class="formInfo">
-			<p>Konektujte se na Facebook.</p>
+			<p>${messageConnect}</p>
 		</div>
 		<p>
 			<button type="submit">Facebook</button>

@@ -3,9 +3,6 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-	<definition extends="empty" name="connect/status">
-		<put-attribute name="body" value="/WEB-INF/view/facebook/status.jsp" />
-	</definition>
 	<definition extends="empty" name="connect/facebookConnect">
 		<put-attribute name="body" value="/WEB-INF/view/facebook/connect.jsp" />
 	</definition>

@@ -42,6 +42,8 @@ curl -v -H "Accept: application/xml" http://localhost:8080/cinema/ws/list
 * Castor
 * Jackson
 * Spring Social
+* Spring Mobile
+* Jquery Mobile
 
 ## List of implemented features
 
@@ -57,4 +59,5 @@ curl -v -H "Accept: application/xml" http://localhost:8080/cinema/ws/list
 * Web service for movie informations
 * Reading movie informations from Open Movie Database Restful--WS
 * Facebook integration ('liking' movie)
+* Automatic and manual switching between 'normal' and 'mobile' mode
 

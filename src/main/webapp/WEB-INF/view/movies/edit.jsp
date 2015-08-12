@@ -40,7 +40,6 @@
 					$('#fileUrl').val(data.Poster);
 					
 					$('#trailerUrl').val('http://www.youtube.com');
-					$('#releaseDate').val('01.01.1970');
 					
 					$('#actors').val(data.Actors);
 					$('#director').val(data.Director);

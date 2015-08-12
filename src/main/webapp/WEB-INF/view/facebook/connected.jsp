@@ -4,11 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<spring:message code="facebook.connected" var="messageConnected"/>
 <div id="facebookConnected">
-	<h3>Veza uspostavljena</h3>
-
-		<p>
-			Povezani ste na Facebook
-			
-		</p>
+		<p>${messageConnected}</p>
 </div>
