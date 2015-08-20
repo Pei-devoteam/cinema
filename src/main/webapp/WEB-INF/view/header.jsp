@@ -1,7 +1,7 @@
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<div id="header">
+<div class="header">
 	<spring:url value="/j_spring_security_check" var="loginUrl" />
 	<spring:url value="/j_spring_security_logout" var="logoutUrl" />
 	<spring:url value="/users/register" var="urlRegister" />
@@ -20,41 +20,38 @@
 	<spring:url value="?lang=en" var="urlEng" />
 
 	<security:authorize access="isAnonymous()">
-		<div id="login">
+		<div class="login">
 			<form name="loginForm" action="${loginUrl}" method="post">
-				<table>
-					<tr>
-						<td>${labelUsername}:</td>
-						<td><input type="text" name="j_username" id="username"/></td>
-						<td>${labelPassword}</td>
-						<td><input type="password" name="j_password" /></td>
-						<td><input name="submit" type="submit" value="${labelLogin}" /></td>
-						<td><a href="${urlRegister}">${labelRegister}</a></td>
-						<td class="languages">
-							<a href="${urlBos}"> <img alt="bos" src="${imageBosnia}" /></a> 
-							<a href="${urlIta}"> <img alt="bos" src="${imageItalia}" /></a>
-							<a href="${urlEng}"> <img alt="bos" src="${imageEngland}" /></a>
-						</td>
-					</tr>
-				</table>
+				<fieldset>
+					<label for="username">${labelUsername}:</label>
+					<input type="text" name="j_username" id="username"/>
+				</fieldset>
+				<fieldset>
+					<label for="password">${labelPassword}</label>
+					<input type="password" name="j_password" id="password"/>
+				</fieldset>
+				<input name="submit" type="submit" value="${labelLogin}" class="button"/>
+				<a class="button" href="${urlRegister}">${labelRegister}</a>
+				<div class="languages">
+					<a href="${urlBos}"> <img alt="bos" src="${imageBosnia}" /></a> 
+					<a href="${urlIta}"> <img alt="bos" src="${imageItalia}" /></a>
+					<a href="${urlEng}"> <img alt="bos" src="${imageEngland}" /></a>
+				</div>
 			</form>
 		</div>
 	</security:authorize>
 	<security:authorize access="isAuthenticated()">
-		<table>
-			<tr>
-				<td>${messageWelcome}&nbsp;<security:authentication
-						property="principal.username" /></td>
-				<td><a href="${logoutUrl}">${labelLogout}</a></td>
-				<td class="languages">
+		<div class="login">
+				<label>${messageWelcome}
+					<security:authentication
+						property="principal.username" /> </label>
+			<a class="button" href="${logoutUrl}">${labelLogout}</a>
+			<div class="languages">
 					<a href="${urlBos}"> <img alt="bos" src="${imageBosnia}" /></a> 
 					<a href="${urlIta}"> <img alt="bos" src="${imageItalia}" /></a>
 					<a href="${urlEng}"> <img alt="bos" src="${imageEngland}" /></a>
-				</td>
-			</tr>
-		</table>
-
-
+			</div>
+		</div>
 	</security:authorize>
 
 </div>

@@ -9,8 +9,8 @@
 <spring:url value="?site_preference=mobile" var="urlMobile" />
 <spring:message code="page.mobile" var="labelPageMobile"/>
 
-<div id="footer">
-	<a href="${urlHome}">${labelHome}</a>&nbsp;
-	<a href="${urlCatalog}">${labelCatalog}</a>&nbsp;
-	<a href="${urlMobile}" data-ajax="false">${labelPageMobile}</a>&nbsp;
+<div class="footer">
+	<ul class="nav">
+		<li><a href="${urlHome}">${labelHome}</a></li><li><a href="${urlCatalog}">${labelCatalog}</a></li><li><a href="${urlMobile}" data-ajax="false">${labelPageMobile}</a></li>
+	</ul>
 </div>

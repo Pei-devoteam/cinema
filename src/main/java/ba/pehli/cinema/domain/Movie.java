@@ -50,6 +50,7 @@ public class Movie {
 	private String name;
 	private Date releaseDate;
 	private String description;
+	private String wiki;
 	private String actors;
 	private String director;
 	private byte[] image;
@@ -146,6 +147,14 @@ public class Movie {
 	}
 	public void setRatings(Set<Rating> ratings) {
 		this.ratings = ratings;
+	}
+	
+	@Column(name="wiki")
+	public String getWiki() {
+		return wiki;
+	}
+	public void setWiki(String wiki) {
+		this.wiki = wiki;
 	}
 	public String toString() {
 		return "[" + id + " " + name + "]"; 

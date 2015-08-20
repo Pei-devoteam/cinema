@@ -38,50 +38,47 @@
 
 	<p>${message}</p>
 	<h2>${messageAvailable}</h2>
-
+	
+	<div class="action">
 	<security:authorize access="hasRole('ROLE_ADMIN')">
-		<a href="${urlNew}">${labelNew}</a>
+		<a href="${urlNew}" class="button">${labelNew}</a>
 	</security:authorize>
+	</div>
 
 	<c:forEach var="movie" items="${movies}">
-		<table>
-			<tr>
-				<td rowspan="4"><a class="popup-trailer"
+		<div class="movie">
+			<div class="movieImage">
+				<a class="popup-trailer"
 					<security:authorize access="isAuthenticated()">
 						href="${movie.trailerUrl}"
 					</security:authorize>>
-						<img src="${urlPhoto}/${movie.id}" height="150" width="100" />
-				</a></td>
-				<td class="title">${movie.id}.${movie.name}</td>
-				<td align="right"><security:authorize
+					<img src="${urlPhoto}/${movie.id}" alt="${movie.name}"/>
+				</a>
+				<security:authorize
 						access="isAuthenticated()">
 						<security:authorize access="hasRole('ROLE_USER')">
-							<input type="hidden" class="rating" data-size="xs" data-step="1"
+							<input type="hidden" class="rating" data-size="sm" data-step="1"
 								data-glyphicon="false" data-show-caption="false"
 								value="${ratings[movie.id]}"
 								onchange="rateMovie(${movie.id},'${username}',this.value)" />
 						</security:authorize>
 						<security:authorize access="hasRole('ROLE_ADMIN')">
-							<a href="${urlEdit}/${movie.id}">${labelEdit}</a>
+							<a href="${urlEdit}/${movie.id}" class="button">${labelEdit}</a>
 						</security:authorize>
-					</security:authorize></td>
-			</tr>
-			<tr>
-				<td colspan="2">${movie.description}</td>
-			</tr>
-			<tr>
-				<td class="cast">${movie.actors}</td>
-				<td align="right">
-				    <security:authorize access="isAuthenticated()">
-						<a href="${urlLike}/${movie.id}"> <img alt="Like" src="${imageLike}" /></a>
-					</security:authorize> 
-				</td>
-			</tr>
-		</table>
-		<br />
+					</security:authorize>
+			</div>
+			<h3 class="title">${movie.id}.${movie.name}
+			<security:authorize access="isAuthenticated()">
+				<a href="${urlLike}/${movie.id}"> <img alt="Like" src="${imageLike}" /></a>
+			</security:authorize>
+			</h3>
+			<p>${movie.description}</p>
+			<p>${movie.wiki}</p>
+			<em>${movie.actors}</em>
+		</div>
 	</c:forEach>
 </div>
-<div id="pagesList">
+<div class="pagesList">
 	<c:forEach var="page" items="${pages}">
 		<a href="${urlPage}/${page}">${page}-${page+pageSize-1}</a>&nbsp;
 		</c:forEach>

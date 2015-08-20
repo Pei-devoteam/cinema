@@ -62,7 +62,7 @@
 	}
 </script>
 
-<div id="movieEdit">
+<div class="movieEdit">
 	<h2>${title}</h2>
 	<!-- IMPORTANT: when using jquery-mobile in forms with files we must use data-ajax="false"
 	     if we do not set this attribute, we will get not multipart exception! 

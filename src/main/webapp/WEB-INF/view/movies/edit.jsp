@@ -53,68 +53,68 @@
 	}
 </script>
 
-<div id="movieEdit">
+<div class="movieEdit">
 	<h2>${title}</h2>
-	<form:form modelAttribute="movie" id="editMovieForm" method="post" enctype="multipart/form-data">
-
+	<form:form modelAttribute="movie" class="editMovieForm" method="post" enctype="multipart/form-data">
+	
 		<c:if test="${not empty message}">
 			<div id="message">${message}</div>
 		</c:if>
-
-		<table>
-			<tr>
-				<td><form:label path="name">${labelName}</form:label></td>
-				<td><form:input path="name" /></td>
-				<td><form:errors path="name" cssClass="error" /></td>
-				<td rowspan="5">
-					<img id="poster" src="${urlPhoto}/${movie.id}"	height="300" width="200" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><form:label path="releaseDate">${labelDate}</form:label></td>
-				<td><form:input path="releaseDate" /></td>
-				<td><form:errors path="releaseDate" cssClass="error" />
-				<td>
-			</tr>
-
-			<tr>
-				<td><form:label path="description">${labelDescription}</form:label></td>
-				<td><form:textarea path="description" rows="10" cols="50"/></td>
-				<td><form:errors path="description" cssClass="error" /></td>
-			</tr>
-			
-			<tr>
-				<td><form:label path="actors" >${labelActors}</form:label></td>
-				<td><form:input path="actors"/></td>
-				<td><form:errors path="actors" cssClass="error" /></td>
-			</tr>
-			
-			<tr>
-				<td><form:label path="director">${labelDirector}</form:label></td>
-				<td><form:input path="director"/></td>
-				<td><form:errors path="director" cssClass="error" /></td>
-			</tr>
-
-			<tr>
-				<td><form:label path="trailerUrl">${labelTrailer}</form:label></td>
-				<td><form:input path="trailerUrl"/></td>
-				<td><form:errors path="trailerUrl" cssClass="error" /></td>
-			</tr>
-			 
-			<tr>
-				<td><form:label path="image" />${labelImage}</td>
-				<td><input name="file" type="file"/>
-					<input id="fileUrl" name="fileUrl" type="hidden" />
-				</td>
-				<td><form:errors path="image" cssClass="error" /></td>
-			</tr>
-			
-			<form:hidden path="version" />
-		</table>
+		
+		<div class="poster">
+			<img id="poster" src="${urlPhoto}/${movie.id}"	height="300" width="200" />
+		</div>
+		
+		<fieldset>
+			<form:label path="name">${labelName}</form:label>
+			<form:input path="name" />
+			<form:errors path="name" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="releaseDate">${labelDate}</form:label>
+			<form:input path="releaseDate" />
+			<form:errors path="releaseDate" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="description">${labelDescription}</form:label>
+			<form:textarea path="description" rows="10" cols="50"/>	
+			<form:errors path="description" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="actors" >${labelActors}</form:label>
+			<form:input path="actors"/>
+			<form:errors path="actors" cssClass="error" />	
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="director">${labelDirector}</form:label>
+			<form:input path="director"/>
+			<form:errors path="director" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="trailerUrl">${labelTrailer}</form:label>	
+			<form:input path="trailerUrl"/>
+			<form:errors path="trailerUrl" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="image">${labelImage}</form:label>
+			<input name="file" type="file"/>	
+			<input id="fileUrl" name="fileUrl" type="hidden" />
+			<form:errors path="image" cssClass="error" />
+		</fieldset>
+		
+		<form:hidden path="version" />
+		
 		
 		<button type="submit">${labelSave}</button>
 		<button type="reset">${labelReset}</button>
 		<button type="button" onclick="downloadInformations()">${labelWS}</button>
+		
+		
 	</form:form>
 </div>

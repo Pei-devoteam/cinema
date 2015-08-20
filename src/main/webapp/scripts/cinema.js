@@ -7,4 +7,7 @@ $(document).ready(function(){
         preloader: false,
         fixedContentPos: false
 	});
+	
+	$('.main .movie:nth-of-type(odd) .movieImage').addClass('animatedOdd');
+	$('.main .movie:nth-of-type(even) .movieImage').addClass('animatedEven');
 });

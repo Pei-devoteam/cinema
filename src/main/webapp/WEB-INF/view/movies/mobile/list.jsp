@@ -21,7 +21,7 @@
 <spring:url value="/resources/images/like32.png" var="imageLike" />
 <spring:url value="/movies/like" var="urlLike" />
 
-<div id="moviesList">
+<div class="moviesList">
 
 	<p>${message}</p>
 	<h2>${messageAvailable}</h2>
@@ -47,7 +47,7 @@
 		<br />
 	</c:forEach>
 </div>
-<div id="pagesList">
+<div class="pagesList">
 	<c:forEach var="page" items="${pages}">
 		<a href="${urlPage}/${page}">${page}-${page+pageSize-1}</a>&nbsp;
 		</c:forEach>
