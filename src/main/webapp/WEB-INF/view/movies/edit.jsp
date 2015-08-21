@@ -111,9 +111,9 @@
 		<form:hidden path="version" />
 		
 		
-		<button type="submit">${labelSave}</button>
-		<button type="reset">${labelReset}</button>
-		<button type="button" onclick="downloadInformations()">${labelWS}</button>
+		<button type="submit" class="button">${labelSave}</button>
+		<button type="reset" class="button">${labelReset}</button>
+		<button type="button" class="button" onclick="downloadInformations()">${labelWS}</button>
 		
 		
 	</form:form>

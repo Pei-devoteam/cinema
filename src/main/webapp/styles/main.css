@@ -3,6 +3,13 @@
 	to {opacity: 1;}
 }
 
+/*
+ ---------------------------------------------------------------------------------- 
+   Template pages styles (header, footer) and generic styles 
+ ----------------------------------------------------------------------------------
+*/
+
+/* We want that all widths include paddings and borders*/
 * {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -75,7 +82,7 @@ body {
 	border: 3px solid rgb(32,126,191);
 }
 
-a.button:link, a.button:visited, button{
+a.button:link, a.button:visited, .button{
 	margin: 5px;
 	padding: 5px;
 	color: white;
@@ -86,8 +93,14 @@ a.button:link, a.button:visited, button{
 	width: 100px;
 }
 
+.login {
+	position: relative;	
+}
+
 .languages {
-	float: right;
+	position: absolute;
+	top: 0px;
+	right: 10px;
 }
 
 ul.nav {
@@ -151,17 +164,25 @@ ul.nav a:active {
 	margin-bottom: 0.8em;
 }
 
+
+/*
+ ---------------------------------------------------------------------------------- 
+   List page styles 
+ ----------------------------------------------------------------------------------
+*/
+
 .main .movie {
 	margin-bottom: 20px;
 	float: left;
 }
+
 
 .main .movie:nth-of-type(odd) .movieImage{
 	text-align: center;
 	margin-right: 10px;
 	float: left;
 	transition-property: all;
-	transition-duration: 3s;
+	transition-duration: 1s;
 }
 
 .main .movie:nth-of-type(even) .movieImage{
@@ -169,7 +190,7 @@ ul.nav a:active {
 	margin-left: 10px;
 	float: right;
 	transition-property: all;
-	transition-duration: 3s;
+	transition-duration: 1s;
 }
 
 .main  .action {
@@ -195,6 +216,7 @@ ul.nav a:active {
 	text-transform: uppercase;
 	margin-top: -10px;	
 	padding-top: 0px;
+	padding-left: 10px;
 }
 
 .main p {
@@ -242,6 +264,12 @@ ul.nav a:active {
 	text-align: center;
 }
 
+/*
+ ---------------------------------------------------------------------------------- 
+   Edit page styles 
+ ----------------------------------------------------------------------------------
+*/
+
 .editMovieForm fieldset {
 	color: black;
 	padding: 5px;
@@ -272,6 +300,45 @@ ul.nav a:active {
 
 .editMovieForm .poster {
 	float: right;
+}
+
+/* Printer specific styles. Because we inherit most of the styles, in the case of conflicts we
+   usually use !important because we want to print styles win 
+*/
+@media print {
+	.header {
+		display: none;
+	}
+	
+	body {
+		background: none !important;
+		border: none !important;
+		width: 100%;
+		margin: 0;
+	}
+	
+	p, p:first-letter {
+		font-size: 10pt !important;
+		font-weight: normal !important;
+	}
+	
+	.movieImage, img {
+		display: none !important;
+	}
+	
+	h1, h2, h3, p, p:first-letter {
+		color: black !important;
+	}
+	
+	.footer, .pagesList {
+		display: none;
+	}
+	
+	ul.nav {
+		border: none !important;
+	}
+	
+
 }
 
 

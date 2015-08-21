@@ -36,7 +36,10 @@
 
 <div id="moviesList">
 
-	<p>${message}</p>
+	<c:if test="${not empty message}">
+			<div id="message">${message}</div>
+	</c:if>
+		
 	<h2>${messageAvailable}</h2>
 	
 	<div class="action">
