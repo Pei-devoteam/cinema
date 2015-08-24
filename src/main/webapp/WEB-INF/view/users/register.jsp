@@ -22,39 +22,43 @@
 		<div id="message">${message}</div>
 	</c:if>
 	<form:form id="registrationForm" modelAttribute="user" method="post">
-		<table>
-			<tr>
-				<td><form:label path="username">${userUsername}</form:label></td>
-				<td><form:input path="username" /></td>
-				<td><form:errors path="username" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="password">${userPassword}</form:label></td>
-				<td><form:password path="password" /></td>
-				<td><form:errors path="password" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="birthDate">${userBirthDate}</form:label></td>
-				<td><form:input path="birthDate" /></td>
-				<td><form:errors path="birthDate" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="country">${userCountry}</form:label></td>
-				<td><form:input path="country" /></td>
-				<td><form:errors path="country" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="creditCard.issuer">Izdavač kartice</form:label></td>
-				<td><form:input path="creditCard.issuer" /></td>
-				<td><form:errors path="creditCard.issuer" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="creditCard.number">Broj kartice</form:label></td>
-				<td><form:input path="creditCard.number" /></td>
-				<td><form:errors path="creditCard.number" cssClass="error" /></td>
-			</tr>
-		</table>
-		<button type="submit">${labelSave}</button>
-		<button type="reset">${labelReset}</button>
+		<fieldset>
+			<form:label path="username">${userUsername}</form:label>
+				<form:input path="username" />
+				<form:errors path="username" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="password">${userPassword}</form:label>
+				<form:password path="password" />
+				<form:errors path="password" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="birthDate">${userBirthDate}</form:label>
+				<form:input class="date" path="birthDate" />
+				<form:errors path="birthDate" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="country">${userCountry}</form:label>
+				<form:input path="country" />
+				<form:errors path="country" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="creditCard.issuer">Izdavač kartice</form:label>
+				<form:input path="creditCard.issuer" />
+				<form:errors path="creditCard.issuer" cssClass="error" />
+		</fieldset>
+		
+		<fieldset>
+			<form:label path="creditCard.number">Broj kartice</form:label>
+				<form:input path="creditCard.number" />
+				<form:errors path="creditCard.number" cssClass="error" />
+		</fieldset>
+		
+		<button type="submit" class="button">${labelSave}</button>
+		<button type="reset" class="button">${labelReset}</button>
 	</form:form>
 </div>

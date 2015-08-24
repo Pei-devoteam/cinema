@@ -42,7 +42,7 @@
 	</security:authorize>
 	<security:authorize access="isAuthenticated()">
 		<div class="login">
-				<label>${messageWelcome}
+				<label class="welcome">${messageWelcome}
 					<security:authentication
 						property="principal.username" /> </label>
 			<a class="button" href="${logoutUrl}">${labelLogout}</a>

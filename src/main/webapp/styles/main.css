@@ -59,6 +59,10 @@ body {
 	padding: 10px;
 }
 
+label.welcome {
+	width: 30%;	
+}
+
 .header fieldset {
 	display: inline;
 	color: white;
@@ -71,16 +75,19 @@ body {
 	font-weight: bold;
 }
 
-.header fieldset input {
+.header fieldset input{
 	font-size: 1.1em;
 	padding: 5px;
 	color: rgb(32,126,191);
+	width: 200px;
 	
 }
 
 .header fieldset input:focus {
 	border: 3px solid rgb(32,126,191);
 }
+
+
 
 a.button:link, a.button:visited, .button{
 	margin: 5px;
@@ -91,6 +98,7 @@ a.button:link, a.button:visited, .button{
 	text-decoration: none;
 	color: white;
 	width: 100px;
+	font-weight: bold;
 }
 
 .login {
@@ -266,16 +274,16 @@ ul.nav a:active {
 
 /*
  ---------------------------------------------------------------------------------- 
-   Edit page styles 
+   Edit page styles and User registration page 
  ----------------------------------------------------------------------------------
 */
 
-.editMovieForm fieldset {
+fieldset {
 	color: black;
 	padding: 5px;
 }
 
-.editMovieForm label {
+label {
 	display: inline-block;
 	font-size: 1.5em;
 	font-weight: bold;
@@ -283,7 +291,9 @@ ul.nav a:active {
 	vertical-align: top;
 }
 
-.editMovieForm input, .editMovieForm textarea {
+
+
+input:not[type="submit"], textarea {
 	font-size: 1.5em;
 	font-weight: bold;
 	padding: 5px;
@@ -294,7 +304,7 @@ ul.nav a:active {
 	
 }
 
-.editMovieForm input:focus, .editMovieForm textarea:focus{
+input:focus, textarea:focus{
 	border: 3px solid orange;
 }
 

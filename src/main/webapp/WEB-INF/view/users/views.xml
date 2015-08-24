@@ -3,7 +3,7 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-	<definition extends="empty" name="users/register">
+	<definition extends="default" name="users/register">
 		<put-attribute name="body" value="/WEB-INF/view/users/register.jsp" />
 	</definition>
 	<definition extends="mobile" name="users/register_mobile">

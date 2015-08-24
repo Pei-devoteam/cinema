@@ -73,7 +73,7 @@
 		
 		<fieldset>
 			<form:label path="releaseDate">${labelDate}</form:label>
-			<form:input path="releaseDate" />
+			<form:input class="date" path="releaseDate" />
 			<form:errors path="releaseDate" cssClass="error" />
 		</fieldset>
 		
